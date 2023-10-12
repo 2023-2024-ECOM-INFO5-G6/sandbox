@@ -1,2 +1,0 @@
-To run jhipster properly, launch it with this command
-docker container exec -it --user root jhipster bash
