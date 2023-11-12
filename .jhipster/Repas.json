@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20231112164205",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "repas",
+  "fields": [
+    {
+      "fieldName": "idR",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateR",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "heureR",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "epa",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Repas",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "patient",
+      "relationshipName": "patient",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "no"
+}

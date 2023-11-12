@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20231112164208",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "chambre",
+  "fields": [
+    {
+      "fieldName": "numC",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Chambre",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "etablissement",
+      "otherEntityRelationshipName": "chambres",
+      "relationshipName": "etablissement",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "patient",
+      "otherEntityRelationshipName": "chambres",
+      "ownerSide": false,
+      "relationshipName": "patients",
+      "relationshipType": "many-to-many",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "no"
+}

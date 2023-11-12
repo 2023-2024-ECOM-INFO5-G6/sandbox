@@ -1,0 +1,67 @@
+{
+  "applications": "*",
+  "changelogDate": "20231112164201",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "patient",
+  "fields": [
+    {
+      "fieldName": "idP",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nomP",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength"],
+      "fieldValidateRulesMinlength": "1"
+    },
+    {
+      "fieldName": "prenomP",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength"],
+      "fieldValidateRulesMinlength": "1"
+    },
+    {
+      "fieldName": "dateNaissanceP",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "tailleP",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "sexeP",
+      "fieldType": "Sexe",
+      "fieldValues": "HOMME,FEMME,AUTRE"
+    },
+    {
+      "fieldName": "dateArrivee",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Patient",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "chambre",
+      "otherEntityRelationshipName": "patients",
+      "ownerSide": true,
+      "relationshipName": "chambres",
+      "relationshipType": "many-to-many",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "utilisateur",
+      "otherEntityRelationshipName": "patients",
+      "ownerSide": false,
+      "relationshipName": "utilisateurs",
+      "relationshipType": "many-to-many",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "no"
+}

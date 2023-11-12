@@ -1,0 +1,96 @@
+DEFAULT_MIN_LENGTH = 1
+
+entity Patient {
+    idP Long required
+    nomP String minlength(DEFAULT_MIN_LENGTH) 
+    prenomP String minlength(DEFAULT_MIN_LENGTH) 
+    dateNaissanceP LocalDate
+    tailleP Long
+    sexeP Sexe
+    dateArrivee LocalDate
+}
+
+entity Mesure {
+    id Long required
+    type TypeMesure
+    date LocalDate
+    valeur Float   
+}
+
+entity Rappel {
+    dateDebut LocalDate required
+    dateFin LocalDate
+    frequence Long required
+    description String
+}
+
+entity Etablissement {
+    idE Long required
+    nomE String minlength(DEFAULT_MIN_LENGTH) 
+    adresseE String
+}
+
+entity Repas {
+    idR Long required
+    dateR LocalDate
+    heureR Instant
+    epa Long
+}
+
+entity Utilisateur {
+    idU Long required
+    emailU String required pattern ( /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/)
+    passwordU String required pattern (/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
+    nomU String minlength(DEFAULT_MIN_LENGTH) 
+    prenomU String minlength(DEFAULT_MIN_LENGTH) 
+    dateNaissanceU LocalDate
+}
+
+entity UserRole {
+    role Role required
+}
+
+
+entity Chambre {
+    numC String required
+}
+
+enum Role {
+    ADMIN,
+    MEDECIN,
+    INFIRMIER
+}
+
+enum TypeMesure {
+	POIDS,
+    ALBUMINE
+}
+
+enum Sexe {
+    HOMME,
+    FEMME,
+    AUTRE
+}
+
+
+relationship ManyToOne {
+    Repas{patient required} to Patient
+    Mesure{patient required} to Patient
+    Rappel{patient required} to Patient
+    Rappel{utilisateur required} to Utilisateur
+    
+}
+
+relationship OneToMany {
+    Etablissement{chambres required} to Chambre
+    
+}
+
+
+
+relationship ManyToMany {
+    Utilisateur{userRoles required} to UserRole{utilisateur required}
+    Utilisateur{patients required} to Patient{utilisateurs required}
+    Etablissement{utilisateurs required} to Utilisateur{etablissements required}
+    Patient{chambres required} to Chambre{patients required}
+}

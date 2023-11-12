@@ -1,0 +1,10 @@
+{
+  "blogApp": {
+    "Role": {
+      "null": "",
+      "ADMIN": "ADMIN",
+      "MEDECIN": "MEDECIN",
+      "INFIRMIER": "INFIRMIER"
+    }
+  }
+}

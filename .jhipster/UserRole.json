@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20231112164207",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_role",
+  "fields": [
+    {
+      "fieldName": "role",
+      "fieldType": "Role",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ADMIN,MEDECIN,INFIRMIER"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserRole",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "utilisateur",
+      "otherEntityRelationshipName": "userRoles",
+      "ownerSide": false,
+      "relationshipName": "utilisateur",
+      "relationshipType": "many-to-many",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "no"
+}
