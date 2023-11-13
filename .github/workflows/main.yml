@@ -42,7 +42,7 @@ jobs:
       #     else
       #         echo No SONAR_TOKEN, skipping...
       #     fi
-      # - name: Package application
+      - name: Package application
         run: npm run java:jar:generator-jhipster
       - name: Build and publish docker image
         run: |
