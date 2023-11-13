@@ -42,8 +42,8 @@ jobs:
       #     else
       #         echo No SONAR_TOKEN, skipping...
       #     fi
-      - name: Package application
-        run: npm run java:jar:generator-jhipster
+      # - name: Package application
+      #   run: npm run java:jar:generator-jhipster
       - name: Build and publish docker image
         run: |
           GIT_TAG=:${GITHUB_REF#refs/tags/}
