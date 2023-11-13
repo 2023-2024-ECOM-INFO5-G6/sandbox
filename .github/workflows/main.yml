@@ -22,28 +22,24 @@ jobs:
           java-version: 11
       - name: Install node.js packages
         run: npm install
-      # - name: Run backend test unit
-      #   run: |
-      #     chmod +x mvnw
-      #     npm run ci:backend:test:unit
-      # - name: Run backend test integration
-      #   run: |
-      #     chmod +x mvnw
-      #     npm run ci:backend:test:integration
-      # - name: Run frontend test
-      #   run: npm run ci:frontend:test
-      # - name: Analyze code with SonarQube
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   run: |
-      #     if [ ! -z "$SONAR_TOKEN" ]; then
-      #         ./mvnw -ntp initialize sonar:sonar -Dsonar.host.url=https://sonarcloud.io
-      #     else
-      #         echo No SONAR_TOKEN, skipping...
-      #     fi
-      # - name: Package application
-      #   run: npm run java:jar:generator-jhipster
+      - name: Run backend test
+        run: |
+          chmod +x mvnw
+          npm run ci:backend:test
+      - name: Run frontend test
+        run: npm run ci:frontend:test
+      - name: Analyze code with SonarQube
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ ! -z "$SONAR_TOKEN" ]; then
+              ./mvnw -ntp initialize sonar:sonar -Dsonar.host.url=https://sonarcloud.io
+          else
+              echo No SONAR_TOKEN, skipping...
+          fi
+      - name: Package application
+        run: npm run java:jar:generator-jhipster
       - name: Build and publish docker image
         run: |
           GIT_TAG=:${GITHUB_REF#refs/tags/}
