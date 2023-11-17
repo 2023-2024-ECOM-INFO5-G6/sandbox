@@ -2,6 +2,7 @@ package polytech.g6.blog.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -100,24 +101,38 @@ class PatientResourceIT {
             .sexeP(DEFAULT_SEXE_P)
             .dateArrivee(DEFAULT_DATE_ARRIVEE);
         // Add required entity
-        Chambre chambre;
-        if (TestUtil.findAll(em, Chambre.class).isEmpty()) {
-            chambre = ChambreResourceIT.createEntity(em);
-            em.persist(chambre);
-            em.flush();
-        } else {
-            chambre = TestUtil.findAll(em, Chambre.class).get(0);
-        }
+        // Chambre chambre;
+        // if (TestUtil.findAll(em, Chambre.class).isEmpty()) {
+        //     chambre = ChambreResourceIT.createEntity(em);
+        //     em.persist(chambre);
+        //     em.flush();
+        // } else {
+        //     chambre = TestUtil.findAll(em, Chambre.class).get(0);
+        // }
+        // patient.getChambres().add(chambre);
+        // // Add required entity
+        // Utilisateur utilisateur;
+        // if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
+        //     utilisateur = UtilisateurResourceIT.createEntity(em);
+        //     em.persist(utilisateur);
+        //     em.flush();
+        // } else {
+        //     utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
+        // }
+        // patient.getUtilisateurs().add(utilisateur);
+
+        // Create and persist Chambre
+        Chambre chambre = ChambreResourceIT.createEntity(em);
+        em.persist(chambre);
+        em.flush();
+
+        // Create and persist Utilisateur
+        Utilisateur utilisateur = UtilisateurResourceIT.createEntity(em);
+        em.persist(utilisateur);
+        em.flush();
+
+        // Add required entities to Patient
         patient.getChambres().add(chambre);
-        // Add required entity
-        Utilisateur utilisateur;
-        if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
-            utilisateur = UtilisateurResourceIT.createEntity(em);
-            em.persist(utilisateur);
-            em.flush();
-        } else {
-            utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
-        }
         patient.getUtilisateurs().add(utilisateur);
         return patient;
     }
