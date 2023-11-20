@@ -124,7 +124,7 @@ export const UtilisateurUpdate = () => {
                 validate={{
                   required: { value: true, message: translate('entity.validation.required') },
                   pattern: {
-                    value: /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+                    value: /^([a-zA-Z0-9_.+-])+(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
                     message: translate('entity.validation.pattern', {
                       pattern: '^([a-zA-Z0-9_.+-])+\\@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$',
                     }),
