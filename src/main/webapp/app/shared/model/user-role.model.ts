@@ -4,7 +4,7 @@ import { Role } from 'app/shared/model/enumerations/role.model';
 export interface IUserRole {
   id?: number;
   role?: Role;
-  utilisateurs?: IUtilisateur[];
+  utilisateurs?: IUtilisateur[] | null;
 }
 
 export const defaultValue: Readonly<IUserRole> = {};

@@ -20,7 +20,7 @@
       "id": "ID",
       "numC": "Num C",
       "etablissement": "Etablissement",
-      "patients": "Patients"
+      "patient": "Patient"
     }
   }
 }

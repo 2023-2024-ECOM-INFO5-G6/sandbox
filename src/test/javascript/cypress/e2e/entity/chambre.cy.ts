@@ -18,7 +18,7 @@ describe('Chambre e2e test', () => {
   // const chambreSample = {"numC":"Self-enabling"};
 
   let chambre;
-  // let patient;
+  // let etablissement;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -29,10 +29,10 @@ describe('Chambre e2e test', () => {
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
-      url: '/api/patients',
-      body: {"idP":28406,"nomP":"Plastic","prenomP":"1080p","dateNaissanceP":"2023-11-12","tailleP":6479,"sexeP":"AUTRE","dateArrivee":"2023-11-12"},
+      url: '/api/etablissements',
+      body: {"idE":27324,"nomE":"system a","adresseE":"b"},
     }).then(({ body }) => {
-      patient = body;
+      etablissement = body;
     });
   });
    */
@@ -48,12 +48,12 @@ describe('Chambre e2e test', () => {
     // Simulate relationships api for better performance and reproducibility.
     cy.intercept('GET', '/api/etablissements', {
       statusCode: 200,
-      body: [],
+      body: [etablissement],
     });
 
     cy.intercept('GET', '/api/patients', {
       statusCode: 200,
-      body: [patient],
+      body: [],
     });
 
   });
@@ -72,12 +72,12 @@ describe('Chambre e2e test', () => {
 
   /* Disabled due to incompatibility
   afterEach(() => {
-    if (patient) {
+    if (etablissement) {
       cy.authenticatedRequest({
         method: 'DELETE',
-        url: `/api/patients/${patient.id}`,
+        url: `/api/etablissements/${etablissement.id}`,
       }).then(() => {
-        patient = undefined;
+        etablissement = undefined;
       });
     }
   });
@@ -125,7 +125,7 @@ describe('Chambre e2e test', () => {
           url: '/api/chambres',
           body: {
             ...chambreSample,
-            patients: patient,
+            etablissement: etablissement,
           },
         }).then(({ body }) => {
           chambre = body;
@@ -219,7 +219,7 @@ describe('Chambre e2e test', () => {
     it.skip('should create an instance of Chambre', () => {
       cy.get(`[data-cy="numC"]`).type('Bacon enable cross-media').should('have.value', 'Bacon enable cross-media');
 
-      cy.get(`[data-cy="patients"]`).select([0]);
+      cy.get(`[data-cy="etablissement"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

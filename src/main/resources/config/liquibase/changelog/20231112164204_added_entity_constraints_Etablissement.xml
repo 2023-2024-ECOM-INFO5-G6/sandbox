@@ -9,14 +9,14 @@
     <changeSet id="20231112164204-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="etablissement_id"
-                                 baseTableName="rel_etablissement__utilisateurs"
-                                 constraintName="fk_rel_etablissement__utilisateurs__etablissement_id"
+                                 baseTableName="rel_etablissement__utilisateur"
+                                 constraintName="fk_rel_etablissement__utilisateur__etablissement_id"
                                  referencedColumnNames="id"
                                  referencedTableName="etablissement"/>
 
-        <addForeignKeyConstraint baseColumnNames="utilisateurs_id"
-                                 baseTableName="rel_etablissement__utilisateurs"
-                                 constraintName="fk_rel_etablissement__utilisateurs__utilisateurs_id"
+        <addForeignKeyConstraint baseColumnNames="utilisateur_id"
+                                 baseTableName="rel_etablissement__utilisateur"
+                                 constraintName="fk_rel_etablissement__utilisateur__utilisateur_id"
                                  referencedColumnNames="id"
                                  referencedTableName="utilisateur"/>
     </changeSet>

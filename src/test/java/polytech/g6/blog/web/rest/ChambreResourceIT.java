@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
 import polytech.g6.blog.domain.Chambre;
-import polytech.g6.blog.domain.Patient;
+import polytech.g6.blog.domain.Etablissement;
 import polytech.g6.blog.repository.ChambreRepository;
 
 /**
@@ -59,15 +59,15 @@ class ChambreResourceIT {
     public static Chambre createEntity(EntityManager em) {
         Chambre chambre = new Chambre().numC(DEFAULT_NUM_C);
         // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createEntity(em);
-            em.persist(patient);
+        Etablissement etablissement;
+        if (TestUtil.findAll(em, Etablissement.class).isEmpty()) {
+            etablissement = EtablissementResourceIT.createEntity(em);
+            em.persist(etablissement);
             em.flush();
         } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
+            etablissement = TestUtil.findAll(em, Etablissement.class).get(0);
         }
-        chambre.getPatients().add(patient);
+        chambre.setEtablissement(etablissement);
         return chambre;
     }
 
@@ -80,15 +80,15 @@ class ChambreResourceIT {
     public static Chambre createUpdatedEntity(EntityManager em) {
         Chambre chambre = new Chambre().numC(UPDATED_NUM_C);
         // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createUpdatedEntity(em);
-            em.persist(patient);
+        Etablissement etablissement;
+        if (TestUtil.findAll(em, Etablissement.class).isEmpty()) {
+            etablissement = EtablissementResourceIT.createUpdatedEntity(em);
+            em.persist(etablissement);
             em.flush();
         } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
+            etablissement = TestUtil.findAll(em, Etablissement.class).get(0);
         }
-        chambre.getPatients().add(patient);
+        chambre.setEtablissement(etablissement);
         return chambre;
     }
 

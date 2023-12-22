@@ -36,11 +36,10 @@
     },
     {
       "otherEntityName": "utilisateur",
-      "otherEntityRelationshipName": "etablissements",
+      "otherEntityRelationshipName": "etablissement",
       "ownerSide": true,
-      "relationshipName": "utilisateurs",
-      "relationshipType": "many-to-many",
-      "relationshipValidateRules": "required"
+      "relationshipName": "utilisateur",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

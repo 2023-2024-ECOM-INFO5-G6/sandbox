@@ -29,8 +29,8 @@
 
     <changeSet id="20231112164204-1-relations" author="jhipster">
 
-        <createTable tableName="rel_etablissement__utilisateurs">
-            <column name="utilisateurs_id" type="bigint">
+        <createTable tableName="rel_etablissement__utilisateur">
+            <column name="utilisateur_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="etablissement_id" type="bigint">
@@ -38,7 +38,7 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="etablissement_id, utilisateurs_id" tableName="rel_etablissement__utilisateurs"/>
+        <addPrimaryKey columnNames="etablissement_id, utilisateur_id" tableName="rel_etablissement__utilisateur"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

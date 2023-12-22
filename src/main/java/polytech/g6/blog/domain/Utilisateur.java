@@ -27,48 +27,30 @@ public class Utilisateur implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "id_u", nullable = false)
-    private Long idU;
-
-    @NotNull
-    @Pattern(regexp = "^([a-zA-Z0-9_.+-])+\\@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$")
-    @Column(name = "email_u", nullable = false)
-    private String emailU;
-
-    @NotNull
-    @Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
-    @Column(name = "password_u", nullable = false)
-    private String passwordU;
-
-    @Size(min = 1)
-    @Column(name = "nom_u")
-    private String nomU;
-
-    @Size(min = 1)
-    @Column(name = "prenom_u")
-    private String prenomU;
-
     @Column(name = "date_naissance_u")
     private LocalDate dateNaissanceU;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(unique = true)
+    private User user;
 
     @ManyToMany
     @NotNull
     @JoinTable(
-        name = "rel_utilisateur__user_roles",
+        name = "rel_utilisateur__user_role",
         joinColumns = @JoinColumn(name = "utilisateur_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_roles_id")
+        inverseJoinColumns = @JoinColumn(name = "user_role_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "utilisateurs" }, allowSetters = true)
     private Set<UserRole> userRoles = new HashSet<>();
 
     @ManyToMany
-    @NotNull
     @JoinTable(
-        name = "rel_utilisateur__patients",
+        name = "rel_utilisateur__patient",
         joinColumns = @JoinColumn(name = "utilisateur_id"),
-        inverseJoinColumns = @JoinColumn(name = "patients_id")
+        inverseJoinColumns = @JoinColumn(name = "patient_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "chambres", "utilisateurs" }, allowSetters = true)
@@ -94,71 +76,6 @@ public class Utilisateur implements Serializable {
         this.id = id;
     }
 
-    public Long getIdU() {
-        return this.idU;
-    }
-
-    public Utilisateur idU(Long idU) {
-        this.setIdU(idU);
-        return this;
-    }
-
-    public void setIdU(Long idU) {
-        this.idU = idU;
-    }
-
-    public String getEmailU() {
-        return this.emailU;
-    }
-
-    public Utilisateur emailU(String emailU) {
-        this.setEmailU(emailU);
-        return this;
-    }
-
-    public void setEmailU(String emailU) {
-        this.emailU = emailU;
-    }
-
-    public String getPasswordU() {
-        return this.passwordU;
-    }
-
-    public Utilisateur passwordU(String passwordU) {
-        this.setPasswordU(passwordU);
-        return this;
-    }
-
-    public void setPasswordU(String passwordU) {
-        this.passwordU = passwordU;
-    }
-
-    public String getNomU() {
-        return this.nomU;
-    }
-
-    public Utilisateur nomU(String nomU) {
-        this.setNomU(nomU);
-        return this;
-    }
-
-    public void setNomU(String nomU) {
-        this.nomU = nomU;
-    }
-
-    public String getPrenomU() {
-        return this.prenomU;
-    }
-
-    public Utilisateur prenomU(String prenomU) {
-        this.setPrenomU(prenomU);
-        return this;
-    }
-
-    public void setPrenomU(String prenomU) {
-        this.prenomU = prenomU;
-    }
-
     public LocalDate getDateNaissanceU() {
         return this.dateNaissanceU;
     }
@@ -170,6 +87,19 @@ public class Utilisateur implements Serializable {
 
     public void setDateNaissanceU(LocalDate dateNaissanceU) {
         this.dateNaissanceU = dateNaissanceU;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Utilisateur user(User user) {
+        this.setUser(user);
+        return this;
     }
 
     public Set<UserRole> getUserRoles() {
@@ -185,13 +115,13 @@ public class Utilisateur implements Serializable {
         return this;
     }
 
-    public Utilisateur addUserRoles(UserRole userRole) {
+    public Utilisateur addUserRole(UserRole userRole) {
         this.userRoles.add(userRole);
         userRole.getUtilisateurs().add(this);
         return this;
     }
 
-    public Utilisateur removeUserRoles(UserRole userRole) {
+    public Utilisateur removeUserRole(UserRole userRole) {
         this.userRoles.remove(userRole);
         userRole.getUtilisateurs().remove(this);
         return this;
@@ -210,13 +140,13 @@ public class Utilisateur implements Serializable {
         return this;
     }
 
-    public Utilisateur addPatients(Patient patient) {
+    public Utilisateur addPatient(Patient patient) {
         this.patients.add(patient);
         patient.getUtilisateurs().add(this);
         return this;
     }
 
-    public Utilisateur removePatients(Patient patient) {
+    public Utilisateur removePatient(Patient patient) {
         this.patients.remove(patient);
         patient.getUtilisateurs().remove(this);
         return this;
@@ -228,10 +158,10 @@ public class Utilisateur implements Serializable {
 
     public void setEtablissements(Set<Etablissement> etablissements) {
         if (this.etablissements != null) {
-            this.etablissements.forEach(i -> i.removeUtilisateurs(this));
+            this.etablissements.forEach(i -> i.removeUtilisateur(this));
         }
         if (etablissements != null) {
-            etablissements.forEach(i -> i.addUtilisateurs(this));
+            etablissements.forEach(i -> i.addUtilisateur(this));
         }
         this.etablissements = etablissements;
     }
@@ -241,13 +171,13 @@ public class Utilisateur implements Serializable {
         return this;
     }
 
-    public Utilisateur addEtablissements(Etablissement etablissement) {
+    public Utilisateur addEtablissement(Etablissement etablissement) {
         this.etablissements.add(etablissement);
         etablissement.getUtilisateurs().add(this);
         return this;
     }
 
-    public Utilisateur removeEtablissements(Etablissement etablissement) {
+    public Utilisateur removeEtablissement(Etablissement etablissement) {
         this.etablissements.remove(etablissement);
         etablissement.getUtilisateurs().remove(this);
         return this;
@@ -277,11 +207,6 @@ public class Utilisateur implements Serializable {
     public String toString() {
         return "Utilisateur{" +
             "id=" + getId() +
-            ", idU=" + getIdU() +
-            ", emailU='" + getEmailU() + "'" +
-            ", passwordU='" + getPasswordU() + "'" +
-            ", nomU='" + getNomU() + "'" +
-            ", prenomU='" + getPrenomU() + "'" +
             ", dateNaissanceU='" + getDateNaissanceU() + "'" +
             "}";
     }

@@ -123,9 +123,9 @@ export const EtablissementUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                label={translate('blogApp.etablissement.utilisateurs')}
-                id="etablissement-utilisateurs"
-                data-cy="utilisateurs"
+                label={translate('blogApp.etablissement.utilisateur')}
+                id="etablissement-utilisateur"
+                data-cy="utilisateur"
                 type="select"
                 multiple
                 name="utilisateurs"

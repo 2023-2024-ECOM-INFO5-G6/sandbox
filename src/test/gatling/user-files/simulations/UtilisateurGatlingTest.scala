@@ -71,12 +71,7 @@ class UtilisateurGatlingTest extends Simulation {
             .post("/api/utilisateurs")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
-                "idU":"0"
-                , "emailU":"SAMPLE_TEXT"
-                , "passwordU":"SAMPLE_TEXT"
-                , "nomU":"SAMPLE_TEXT"
-                , "prenomU":"SAMPLE_TEXT"
-                , "dateNaissanceU":"2020-01-01T00:00:00.000Z"
+                "dateNaissanceU":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_utilisateur_url"))).exitHereIfFailed

@@ -51,7 +51,7 @@ export const EtablissementDetail = () => {
           </dt>
           <dd>{etablissementEntity.adresseE}</dd>
           <dt>
-            <Translate contentKey="blogApp.etablissement.utilisateurs">Utilisateurs</Translate>
+            <Translate contentKey="blogApp.etablissement.utilisateur">Utilisateur</Translate>
           </dt>
           <dd>
             {etablissementEntity.utilisateurs

@@ -34,7 +34,7 @@ public class UserRole implements Serializable {
 
     @ManyToMany(mappedBy = "userRoles")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "userRoles", "patients", "etablissements" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "userRoles", "patients", "etablissements" }, allowSetters = true)
     private Set<Utilisateur> utilisateurs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -71,10 +71,10 @@ public class UserRole implements Serializable {
 
     public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
         if (this.utilisateurs != null) {
-            this.utilisateurs.forEach(i -> i.removeUserRoles(this));
+            this.utilisateurs.forEach(i -> i.removeUserRole(this));
         }
         if (utilisateurs != null) {
-            utilisateurs.forEach(i -> i.addUserRoles(this));
+            utilisateurs.forEach(i -> i.addUserRole(this));
         }
         this.utilisateurs = utilisateurs;
     }

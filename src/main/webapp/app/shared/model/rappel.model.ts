@@ -8,7 +8,7 @@ export interface IRappel {
   dateFin?: string | null;
   frequence?: number;
   description?: string | null;
-  patient?: IPatient;
+  patient?: IPatient | null;
   utilisateur?: IUtilisateur;
 }
 

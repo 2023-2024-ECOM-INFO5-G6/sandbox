@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
 import polytech.g6.blog.domain.Etablissement;
-import polytech.g6.blog.domain.Patient;
 import polytech.g6.blog.domain.UserRole;
 import polytech.g6.blog.domain.Utilisateur;
 import polytech.g6.blog.repository.UtilisateurRepository;
@@ -42,21 +41,6 @@ import polytech.g6.blog.repository.UtilisateurRepository;
 @AutoConfigureMockMvc
 @WithMockUser
 class UtilisateurResourceIT {
-
-    private static final Long DEFAULT_ID_U = 1L;
-    private static final Long UPDATED_ID_U = 2L;
-
-    private static final String DEFAULT_EMAIL_U = "ei+vrL@Q.8mdd9.1oS.jxAr.P.s2r.tP4YRNlyhe671Cpiv";
-    private static final String UPDATED_EMAIL_U = "A@0KZF.ADgX.AZv.5K";
-
-    private static final String DEFAULT_PASSWORD_U = "jnyF4MN(a4";
-    private static final String UPDATED_PASSWORD_U = "r:w}.wo=tRa";
-
-    private static final String DEFAULT_NOM_U = "AAAAAAAAAA";
-    private static final String UPDATED_NOM_U = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PRENOM_U = "AAAAAAAAAA";
-    private static final String UPDATED_PRENOM_U = "BBBBBBBBBB";
 
     private static final LocalDate DEFAULT_DATE_NAISSANCE_U = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_NAISSANCE_U = LocalDate.now(ZoneId.systemDefault());
@@ -88,13 +72,7 @@ class UtilisateurResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Utilisateur createEntity(EntityManager em) {
-        Utilisateur utilisateur = new Utilisateur()
-            .idU(DEFAULT_ID_U)
-            .emailU(DEFAULT_EMAIL_U)
-            .passwordU(DEFAULT_PASSWORD_U)
-            .nomU(DEFAULT_NOM_U)
-            .prenomU(DEFAULT_PRENOM_U)
-            .dateNaissanceU(DEFAULT_DATE_NAISSANCE_U);
+        Utilisateur utilisateur = new Utilisateur().dateNaissanceU(DEFAULT_DATE_NAISSANCE_U);
         // Add required entity
         UserRole userRole;
         if (TestUtil.findAll(em, UserRole.class).isEmpty()) {
@@ -105,16 +83,6 @@ class UtilisateurResourceIT {
             userRole = TestUtil.findAll(em, UserRole.class).get(0);
         }
         utilisateur.getUserRoles().add(userRole);
-        // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        utilisateur.getPatients().add(patient);
         // Add required entity
         Etablissement etablissement;
         if (TestUtil.findAll(em, Etablissement.class).isEmpty()) {
@@ -135,13 +103,7 @@ class UtilisateurResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Utilisateur createUpdatedEntity(EntityManager em) {
-        Utilisateur utilisateur = new Utilisateur()
-            .idU(UPDATED_ID_U)
-            .emailU(UPDATED_EMAIL_U)
-            .passwordU(UPDATED_PASSWORD_U)
-            .nomU(UPDATED_NOM_U)
-            .prenomU(UPDATED_PRENOM_U)
-            .dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
+        Utilisateur utilisateur = new Utilisateur().dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
         // Add required entity
         UserRole userRole;
         if (TestUtil.findAll(em, UserRole.class).isEmpty()) {
@@ -152,16 +114,6 @@ class UtilisateurResourceIT {
             userRole = TestUtil.findAll(em, UserRole.class).get(0);
         }
         utilisateur.getUserRoles().add(userRole);
-        // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createUpdatedEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        utilisateur.getPatients().add(patient);
         // Add required entity
         Etablissement etablissement;
         if (TestUtil.findAll(em, Etablissement.class).isEmpty()) {
@@ -193,11 +145,6 @@ class UtilisateurResourceIT {
         List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
         assertThat(utilisateurList).hasSize(databaseSizeBeforeCreate + 1);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
-        assertThat(testUtilisateur.getIdU()).isEqualTo(DEFAULT_ID_U);
-        assertThat(testUtilisateur.getEmailU()).isEqualTo(DEFAULT_EMAIL_U);
-        assertThat(testUtilisateur.getPasswordU()).isEqualTo(DEFAULT_PASSWORD_U);
-        assertThat(testUtilisateur.getNomU()).isEqualTo(DEFAULT_NOM_U);
-        assertThat(testUtilisateur.getPrenomU()).isEqualTo(DEFAULT_PRENOM_U);
         assertThat(testUtilisateur.getDateNaissanceU()).isEqualTo(DEFAULT_DATE_NAISSANCE_U);
     }
 
@@ -221,57 +168,6 @@ class UtilisateurResourceIT {
 
     @Test
     @Transactional
-    void checkIdUIsRequired() throws Exception {
-        int databaseSizeBeforeTest = utilisateurRepository.findAll().size();
-        // set the field null
-        utilisateur.setIdU(null);
-
-        // Create the Utilisateur, which fails.
-
-        restUtilisateurMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(utilisateur)))
-            .andExpect(status().isBadRequest());
-
-        List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
-        assertThat(utilisateurList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkEmailUIsRequired() throws Exception {
-        int databaseSizeBeforeTest = utilisateurRepository.findAll().size();
-        // set the field null
-        utilisateur.setEmailU(null);
-
-        // Create the Utilisateur, which fails.
-
-        restUtilisateurMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(utilisateur)))
-            .andExpect(status().isBadRequest());
-
-        List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
-        assertThat(utilisateurList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkPasswordUIsRequired() throws Exception {
-        int databaseSizeBeforeTest = utilisateurRepository.findAll().size();
-        // set the field null
-        utilisateur.setPasswordU(null);
-
-        // Create the Utilisateur, which fails.
-
-        restUtilisateurMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(utilisateur)))
-            .andExpect(status().isBadRequest());
-
-        List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
-        assertThat(utilisateurList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllUtilisateurs() throws Exception {
         // Initialize the database
         utilisateurRepository.saveAndFlush(utilisateur);
@@ -282,11 +178,6 @@ class UtilisateurResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(utilisateur.getId().intValue())))
-            .andExpect(jsonPath("$.[*].idU").value(hasItem(DEFAULT_ID_U.intValue())))
-            .andExpect(jsonPath("$.[*].emailU").value(hasItem(DEFAULT_EMAIL_U)))
-            .andExpect(jsonPath("$.[*].passwordU").value(hasItem(DEFAULT_PASSWORD_U)))
-            .andExpect(jsonPath("$.[*].nomU").value(hasItem(DEFAULT_NOM_U)))
-            .andExpect(jsonPath("$.[*].prenomU").value(hasItem(DEFAULT_PRENOM_U)))
             .andExpect(jsonPath("$.[*].dateNaissanceU").value(hasItem(DEFAULT_DATE_NAISSANCE_U.toString())));
     }
 
@@ -319,11 +210,6 @@ class UtilisateurResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(utilisateur.getId().intValue()))
-            .andExpect(jsonPath("$.idU").value(DEFAULT_ID_U.intValue()))
-            .andExpect(jsonPath("$.emailU").value(DEFAULT_EMAIL_U))
-            .andExpect(jsonPath("$.passwordU").value(DEFAULT_PASSWORD_U))
-            .andExpect(jsonPath("$.nomU").value(DEFAULT_NOM_U))
-            .andExpect(jsonPath("$.prenomU").value(DEFAULT_PRENOM_U))
             .andExpect(jsonPath("$.dateNaissanceU").value(DEFAULT_DATE_NAISSANCE_U.toString()));
     }
 
@@ -346,13 +232,7 @@ class UtilisateurResourceIT {
         Utilisateur updatedUtilisateur = utilisateurRepository.findById(utilisateur.getId()).get();
         // Disconnect from session so that the updates on updatedUtilisateur are not directly saved in db
         em.detach(updatedUtilisateur);
-        updatedUtilisateur
-            .idU(UPDATED_ID_U)
-            .emailU(UPDATED_EMAIL_U)
-            .passwordU(UPDATED_PASSWORD_U)
-            .nomU(UPDATED_NOM_U)
-            .prenomU(UPDATED_PRENOM_U)
-            .dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
+        updatedUtilisateur.dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
 
         restUtilisateurMockMvc
             .perform(
@@ -366,11 +246,6 @@ class UtilisateurResourceIT {
         List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
         assertThat(utilisateurList).hasSize(databaseSizeBeforeUpdate);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
-        assertThat(testUtilisateur.getIdU()).isEqualTo(UPDATED_ID_U);
-        assertThat(testUtilisateur.getEmailU()).isEqualTo(UPDATED_EMAIL_U);
-        assertThat(testUtilisateur.getPasswordU()).isEqualTo(UPDATED_PASSWORD_U);
-        assertThat(testUtilisateur.getNomU()).isEqualTo(UPDATED_NOM_U);
-        assertThat(testUtilisateur.getPrenomU()).isEqualTo(UPDATED_PRENOM_U);
         assertThat(testUtilisateur.getDateNaissanceU()).isEqualTo(UPDATED_DATE_NAISSANCE_U);
     }
 
@@ -442,7 +317,7 @@ class UtilisateurResourceIT {
         Utilisateur partialUpdatedUtilisateur = new Utilisateur();
         partialUpdatedUtilisateur.setId(utilisateur.getId());
 
-        partialUpdatedUtilisateur.idU(UPDATED_ID_U).passwordU(UPDATED_PASSWORD_U).prenomU(UPDATED_PRENOM_U);
+        partialUpdatedUtilisateur.dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
 
         restUtilisateurMockMvc
             .perform(
@@ -456,12 +331,7 @@ class UtilisateurResourceIT {
         List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
         assertThat(utilisateurList).hasSize(databaseSizeBeforeUpdate);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
-        assertThat(testUtilisateur.getIdU()).isEqualTo(UPDATED_ID_U);
-        assertThat(testUtilisateur.getEmailU()).isEqualTo(DEFAULT_EMAIL_U);
-        assertThat(testUtilisateur.getPasswordU()).isEqualTo(UPDATED_PASSWORD_U);
-        assertThat(testUtilisateur.getNomU()).isEqualTo(DEFAULT_NOM_U);
-        assertThat(testUtilisateur.getPrenomU()).isEqualTo(UPDATED_PRENOM_U);
-        assertThat(testUtilisateur.getDateNaissanceU()).isEqualTo(DEFAULT_DATE_NAISSANCE_U);
+        assertThat(testUtilisateur.getDateNaissanceU()).isEqualTo(UPDATED_DATE_NAISSANCE_U);
     }
 
     @Test
@@ -476,13 +346,7 @@ class UtilisateurResourceIT {
         Utilisateur partialUpdatedUtilisateur = new Utilisateur();
         partialUpdatedUtilisateur.setId(utilisateur.getId());
 
-        partialUpdatedUtilisateur
-            .idU(UPDATED_ID_U)
-            .emailU(UPDATED_EMAIL_U)
-            .passwordU(UPDATED_PASSWORD_U)
-            .nomU(UPDATED_NOM_U)
-            .prenomU(UPDATED_PRENOM_U)
-            .dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
+        partialUpdatedUtilisateur.dateNaissanceU(UPDATED_DATE_NAISSANCE_U);
 
         restUtilisateurMockMvc
             .perform(
@@ -496,11 +360,6 @@ class UtilisateurResourceIT {
         List<Utilisateur> utilisateurList = utilisateurRepository.findAll();
         assertThat(utilisateurList).hasSize(databaseSizeBeforeUpdate);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
-        assertThat(testUtilisateur.getIdU()).isEqualTo(UPDATED_ID_U);
-        assertThat(testUtilisateur.getEmailU()).isEqualTo(UPDATED_EMAIL_U);
-        assertThat(testUtilisateur.getPasswordU()).isEqualTo(UPDATED_PASSWORD_U);
-        assertThat(testUtilisateur.getNomU()).isEqualTo(UPDATED_NOM_U);
-        assertThat(testUtilisateur.getPrenomU()).isEqualTo(UPDATED_PRENOM_U);
         assertThat(testUtilisateur.getDateNaissanceU()).isEqualTo(UPDATED_DATE_NAISSANCE_U);
     }
 

@@ -15,44 +15,19 @@ describe('Repas e2e test', () => {
   const repasPageUrlPattern = new RegExp('/repas(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  // const repasSample = {"idR":15408};
+  const repasSample = { idR: 15408 };
 
   let repas;
-  // let patient;
 
   beforeEach(() => {
     cy.login(username, password);
   });
-
-  /* Disabled due to incompatibility
-  beforeEach(() => {
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/patients',
-      body: {"idP":65950,"nomP":"withdrawal invoice","prenomP":"b Languedoc-Roussillon","dateNaissanceP":"2023-11-12","tailleP":78329,"sexeP":"AUTRE","dateArrivee":"2023-11-12"},
-    }).then(({ body }) => {
-      patient = body;
-    });
-  });
-   */
 
   beforeEach(() => {
     cy.intercept('GET', '/api/repas+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/repas').as('postEntityRequest');
     cy.intercept('DELETE', '/api/repas/*').as('deleteEntityRequest');
   });
-
-  /* Disabled due to incompatibility
-  beforeEach(() => {
-    // Simulate relationships api for better performance and reproducibility.
-    cy.intercept('GET', '/api/patients', {
-      statusCode: 200,
-      body: [patient],
-    });
-
-  });
-   */
 
   afterEach(() => {
     if (repas) {
@@ -64,19 +39,6 @@ describe('Repas e2e test', () => {
       });
     }
   });
-
-  /* Disabled due to incompatibility
-  afterEach(() => {
-    if (patient) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/patients/${patient.id}`,
-      }).then(() => {
-        patient = undefined;
-      });
-    }
-  });
-   */
 
   it('Repas menu should load Repas page', () => {
     cy.visit('/');
@@ -113,15 +75,11 @@ describe('Repas e2e test', () => {
     });
 
     describe('with existing value', () => {
-      /* Disabled due to incompatibility
       beforeEach(() => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/repas',
-          body: {
-            ...repasSample,
-            patient: patient,
-          },
+          body: repasSample,
         }).then(({ body }) => {
           repas = body;
 
@@ -141,17 +99,6 @@ describe('Repas e2e test', () => {
         cy.visit(repasPageUrl);
 
         cy.wait('@entitiesRequestInternal');
-      });
-       */
-
-      beforeEach(function () {
-        cy.visit(repasPageUrl);
-
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          if (response.body.length === 0) {
-            this.skip();
-          }
-        });
       });
 
       it('detail button click should load details Repas page', () => {
@@ -185,7 +132,7 @@ describe('Repas e2e test', () => {
         cy.url().should('match', repasPageUrlPattern);
       });
 
-      it.skip('last delete button click should delete instance of Repas', () => {
+      it('last delete button click should delete instance of Repas', () => {
         cy.intercept('GET', '/api/repas/*').as('dialogDeleteRequest');
         cy.get(entityDeleteButtonSelector).last().click();
         cy.wait('@dialogDeleteRequest');
@@ -211,7 +158,7 @@ describe('Repas e2e test', () => {
       cy.getEntityCreateUpdateHeading('Repas');
     });
 
-    it.skip('should create an instance of Repas', () => {
+    it('should create an instance of Repas', () => {
       cy.get(`[data-cy="idR"]`).type('33100').should('have.value', '33100');
 
       cy.get(`[data-cy="dateR"]`).type('2023-11-12').blur().should('have.value', '2023-11-12');
@@ -219,8 +166,6 @@ describe('Repas e2e test', () => {
       cy.get(`[data-cy="heureR"]`).type('2023-11-12T14:24').blur().should('have.value', '2023-11-12T14:24');
 
       cy.get(`[data-cy="epa"]`).type('1271').should('have.value', '1271');
-
-      cy.get(`[data-cy="patient"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

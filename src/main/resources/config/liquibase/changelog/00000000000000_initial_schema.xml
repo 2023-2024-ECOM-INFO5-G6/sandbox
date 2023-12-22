@@ -102,6 +102,10 @@
                   usePreparedStatements="true">
             <column name="user_id" type="numeric"/>
         </loadData>
+        <update tableName="JHI_AUTHORITY">
+            <column name="NAME" value="ROLE_MÉDÉCIN" />
+            <column name="NAME" value="ROLE_AIDE_SOIGNANT" />
+        </update>
     </changeSet>
 
     <changeSet author="jhipster" id="00000000000002" context="test">

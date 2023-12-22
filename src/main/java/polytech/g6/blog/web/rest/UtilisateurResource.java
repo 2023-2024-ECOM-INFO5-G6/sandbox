@@ -125,21 +125,6 @@ public class UtilisateurResource {
         Optional<Utilisateur> result = utilisateurRepository
             .findById(utilisateur.getId())
             .map(existingUtilisateur -> {
-                if (utilisateur.getIdU() != null) {
-                    existingUtilisateur.setIdU(utilisateur.getIdU());
-                }
-                if (utilisateur.getEmailU() != null) {
-                    existingUtilisateur.setEmailU(utilisateur.getEmailU());
-                }
-                if (utilisateur.getPasswordU() != null) {
-                    existingUtilisateur.setPasswordU(utilisateur.getPasswordU());
-                }
-                if (utilisateur.getNomU() != null) {
-                    existingUtilisateur.setNomU(utilisateur.getNomU());
-                }
-                if (utilisateur.getPrenomU() != null) {
-                    existingUtilisateur.setPrenomU(utilisateur.getPrenomU());
-                }
                 if (utilisateur.getDateNaissanceU() != null) {
                     existingUtilisateur.setDateNaissanceU(utilisateur.getDateNaissanceU());
                 }

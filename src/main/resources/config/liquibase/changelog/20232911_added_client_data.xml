@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Adding patient client data.
+    -->  
+    <changeSet id="20231129132301-1-data" author="user" context="faker">
+        <loadData
+                file="config/liquibase/fake-data/added_patient.csv"
+                separator=","
+                tableName="patient"
+                usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="id_p" type="numeric"/>
+            <column name="nom_p" type="string"/>
+            <column name="prenom_p" type="string"/>
+            <column name="date_naissance_p" type="date"/>
+            <column name="taille_p" type="numeric"/>
+            <column name="sexe_p" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

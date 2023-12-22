@@ -26,7 +26,7 @@
             <column name="date_naissance_p" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="taille_p" type="bigint">
+            <column name="taille_p" type="${floatType}">
                 <constraints nullable="true" />
             </column>
             <column name="sexe_p" type="varchar(255)">
@@ -37,20 +37,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-    </changeSet>
-
-    <changeSet id="20231112164201-1-relations" author="jhipster">
-
-        <createTable tableName="rel_patient__chambres">
-            <column name="chambres_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="patient_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="patient_id, chambres_id" tableName="rel_patient__chambres"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

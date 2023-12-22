@@ -141,7 +141,6 @@ export const RappelUpdate = () => {
                 data-cy="patient"
                 label={translate('blogApp.rappel.patient')}
                 type="select"
-                required
               >
                 <option value="" key="0" />
                 {patients
@@ -152,9 +151,6 @@ export const RappelUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <FormText>
-                <Translate contentKey="entity.validation.required">This field is required.</Translate>
-              </FormText>
               <ValidatedField
                 id="rappel-utilisateur"
                 name="utilisateur"

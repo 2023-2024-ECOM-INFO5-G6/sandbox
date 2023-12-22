@@ -39,14 +39,13 @@ public class Rappel implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties(value = { "chambres", "utilisateurs" }, allowSetters = true)
     private Patient patient;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "userRoles", "patients", "etablissements" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "userRoles", "patients", "etablissements" }, allowSetters = true)
     private Utilisateur utilisateur;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

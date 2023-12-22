@@ -8,27 +8,33 @@
     -->
     <changeSet id="20231112164206-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="utilisateur"
+                                 constraintName="fk_utilisateur__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
         <addForeignKeyConstraint baseColumnNames="utilisateur_id"
-                                 baseTableName="rel_utilisateur__user_roles"
-                                 constraintName="fk_rel_utilisateur__user_roles__utilisateur_id"
+                                 baseTableName="rel_utilisateur__user_role"
+                                 constraintName="fk_rel_utilisateur__user_role__utilisateur_id"
                                  referencedColumnNames="id"
                                  referencedTableName="utilisateur"/>
 
-        <addForeignKeyConstraint baseColumnNames="user_roles_id"
-                                 baseTableName="rel_utilisateur__user_roles"
-                                 constraintName="fk_rel_utilisateur__user_roles__user_roles_id"
+        <addForeignKeyConstraint baseColumnNames="user_role_id"
+                                 baseTableName="rel_utilisateur__user_role"
+                                 constraintName="fk_rel_utilisateur__user_role__user_role_id"
                                  referencedColumnNames="id"
                                  referencedTableName="user_role"/>
 
         <addForeignKeyConstraint baseColumnNames="utilisateur_id"
-                                 baseTableName="rel_utilisateur__patients"
-                                 constraintName="fk_rel_utilisateur__patients__utilisateur_id"
+                                 baseTableName="rel_utilisateur__patient"
+                                 constraintName="fk_rel_utilisateur__patient__utilisateur_id"
                                  referencedColumnNames="id"
                                  referencedTableName="utilisateur"/>
 
-        <addForeignKeyConstraint baseColumnNames="patients_id"
-                                 baseTableName="rel_utilisateur__patients"
-                                 constraintName="fk_rel_utilisateur__patients__patients_id"
+        <addForeignKeyConstraint baseColumnNames="patient_id"
+                                 baseTableName="rel_utilisateur__patient"
+                                 constraintName="fk_rel_utilisateur__patient__patient_id"
                                  referencedColumnNames="id"
                                  referencedTableName="patient"/>
     </changeSet>

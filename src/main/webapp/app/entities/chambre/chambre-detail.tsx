@@ -42,6 +42,10 @@ export const ChambreDetail = () => {
             <Translate contentKey="blogApp.chambre.etablissement">Etablissement</Translate>
           </dt>
           <dd>{chambreEntity.etablissement ? chambreEntity.etablissement.id : ''}</dd>
+          <dt>
+            <Translate contentKey="blogApp.chambre.patient">Patient</Translate>
+          </dt>
+          <dd>{chambreEntity.patient ? chambreEntity.patient.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/chambre" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -72,9 +72,6 @@ export const Patient = () => {
                 <th>
                   <Translate contentKey="blogApp.patient.dateArrivee">Date Arrivee</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="blogApp.patient.chambres">Chambres</Translate>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -100,16 +97,6 @@ export const Patient = () => {
                   </td>
                   <td>
                     {patient.dateArrivee ? <TextFormat type="date" value={patient.dateArrivee} format={APP_LOCAL_DATE_FORMAT} /> : null}
-                  </td>
-                  <td>
-                    {patient.chambres
-                      ? patient.chambres.map((val, j) => (
-                          <span key={j}>
-                            <Link to={`/chambre/${val.id}`}>{val.id}</Link>
-                            {j === patient.chambres.length - 1 ? '' : ', '}
-                          </span>
-                        ))
-                      : null}
                   </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">

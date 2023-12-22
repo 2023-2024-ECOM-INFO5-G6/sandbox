@@ -39,8 +39,7 @@ public class Repas implements Serializable {
     @Column(name = "epa")
     private Long epa;
 
-    @ManyToOne(optional = false)
-    @NotNull
+    @ManyToOne
     @JsonIgnoreProperties(value = { "chambres", "utilisateurs" }, allowSetters = true)
     private Patient patient;
 

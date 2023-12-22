@@ -2,8 +2,6 @@ package polytech.g6.blog.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -30,14 +28,14 @@ public class Chambre implements Serializable {
     @Column(name = "num_c", nullable = false)
     private String numC;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "chambres", "utilisateurs" }, allowSetters = true)
     private Etablissement etablissement;
 
-    @ManyToMany(mappedBy = "chambres")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @ManyToOne
     @JsonIgnoreProperties(value = { "chambres", "utilisateurs" }, allowSetters = true)
-    private Set<Patient> patients = new HashSet<>();
+    private Patient patient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -80,34 +78,16 @@ public class Chambre implements Serializable {
         return this;
     }
 
-    public Set<Patient> getPatients() {
-        return this.patients;
+    public Patient getPatient() {
+        return this.patient;
     }
 
-    public void setPatients(Set<Patient> patients) {
-        if (this.patients != null) {
-            this.patients.forEach(i -> i.removeChambres(this));
-        }
-        if (patients != null) {
-            patients.forEach(i -> i.addChambres(this));
-        }
-        this.patients = patients;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    public Chambre patients(Set<Patient> patients) {
-        this.setPatients(patients);
-        return this;
-    }
-
-    public Chambre addPatients(Patient patient) {
-        this.patients.add(patient);
-        patient.getChambres().add(this);
-        return this;
-    }
-
-    public Chambre removePatients(Patient patient) {
-        this.patients.remove(patient);
-        patient.getChambres().remove(this);
+    public Chambre patient(Patient patient) {
+        this.setPatient(patient);
         return this;
     }
 

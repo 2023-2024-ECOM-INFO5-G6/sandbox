@@ -7,7 +7,7 @@ export interface IRepas {
   dateR?: string | null;
   heureR?: string | null;
   epa?: number | null;
-  patient?: IPatient;
+  patient?: IPatient | null;
 }
 
 export const defaultValue: Readonly<IRepas> = {};

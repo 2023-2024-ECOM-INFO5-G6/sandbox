@@ -21,15 +21,14 @@
       "otherEntityName": "etablissement",
       "otherEntityRelationshipName": "chambres",
       "relationshipName": "etablissement",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
       "otherEntityName": "patient",
       "otherEntityRelationshipName": "chambres",
-      "ownerSide": false,
-      "relationshipName": "patients",
-      "relationshipType": "many-to-many",
-      "relationshipValidateRules": "required"
+      "relationshipName": "patient",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

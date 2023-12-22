@@ -18,7 +18,6 @@ describe('Rappel e2e test', () => {
   // const rappelSample = {"dateDebut":"2023-11-12","frequence":24891};
 
   let rappel;
-  // let patient;
   // let utilisateur;
 
   beforeEach(() => {
@@ -30,16 +29,8 @@ describe('Rappel e2e test', () => {
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
       method: 'POST',
-      url: '/api/patients',
-      body: {"idP":35606,"nomP":"neutral EXE","prenomP":"Avon Midi-Pyrénées systemic","dateNaissanceP":"2023-11-12","tailleP":84134,"sexeP":"FEMME","dateArrivee":"2023-11-12"},
-    }).then(({ body }) => {
-      patient = body;
-    });
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
       url: '/api/utilisateurs',
-      body: {"idU":11220,"emailU":"P@K.pOAJAC.ulVbvz","passwordU":"uqH.l$[9m(!uN","nomU":"Cotton c Beauty","prenomU":"online","dateNaissanceU":"2023-11-11"},
+      body: {"dateNaissanceU":"2023-11-12"},
     }).then(({ body }) => {
       utilisateur = body;
     });
@@ -57,7 +48,7 @@ describe('Rappel e2e test', () => {
     // Simulate relationships api for better performance and reproducibility.
     cy.intercept('GET', '/api/patients', {
       statusCode: 200,
-      body: [patient],
+      body: [],
     });
 
     cy.intercept('GET', '/api/utilisateurs', {
@@ -81,14 +72,6 @@ describe('Rappel e2e test', () => {
 
   /* Disabled due to incompatibility
   afterEach(() => {
-    if (patient) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/patients/${patient.id}`,
-      }).then(() => {
-        patient = undefined;
-      });
-    }
     if (utilisateur) {
       cy.authenticatedRequest({
         method: 'DELETE',
@@ -142,7 +125,6 @@ describe('Rappel e2e test', () => {
           url: '/api/rappels',
           body: {
             ...rappelSample,
-            patient: patient,
             utilisateur: utilisateur,
           },
         }).then(({ body }) => {
@@ -243,7 +225,6 @@ describe('Rappel e2e test', () => {
 
       cy.get(`[data-cy="description"]`).type('protocol').should('have.value', 'protocol');
 
-      cy.get(`[data-cy="patient"]`).select(1);
       cy.get(`[data-cy="utilisateur"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();

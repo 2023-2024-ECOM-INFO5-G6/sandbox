@@ -33,36 +33,6 @@ export const UtilisateurDetail = () => {
           </dt>
           <dd>{utilisateurEntity.id}</dd>
           <dt>
-            <span id="idU">
-              <Translate contentKey="blogApp.utilisateur.idU">Id U</Translate>
-            </span>
-          </dt>
-          <dd>{utilisateurEntity.idU}</dd>
-          <dt>
-            <span id="emailU">
-              <Translate contentKey="blogApp.utilisateur.emailU">Email U</Translate>
-            </span>
-          </dt>
-          <dd>{utilisateurEntity.emailU}</dd>
-          <dt>
-            <span id="passwordU">
-              <Translate contentKey="blogApp.utilisateur.passwordU">Password U</Translate>
-            </span>
-          </dt>
-          <dd>{utilisateurEntity.passwordU}</dd>
-          <dt>
-            <span id="nomU">
-              <Translate contentKey="blogApp.utilisateur.nomU">Nom U</Translate>
-            </span>
-          </dt>
-          <dd>{utilisateurEntity.nomU}</dd>
-          <dt>
-            <span id="prenomU">
-              <Translate contentKey="blogApp.utilisateur.prenomU">Prenom U</Translate>
-            </span>
-          </dt>
-          <dd>{utilisateurEntity.prenomU}</dd>
-          <dt>
             <span id="dateNaissanceU">
               <Translate contentKey="blogApp.utilisateur.dateNaissanceU">Date Naissance U</Translate>
             </span>
@@ -73,7 +43,11 @@ export const UtilisateurDetail = () => {
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="blogApp.utilisateur.userRoles">User Roles</Translate>
+            <Translate contentKey="blogApp.utilisateur.user">User</Translate>
+          </dt>
+          <dd>{utilisateurEntity.user ? utilisateurEntity.user.id : ''}</dd>
+          <dt>
+            <Translate contentKey="blogApp.utilisateur.userRole">User Role</Translate>
           </dt>
           <dd>
             {utilisateurEntity.userRoles
@@ -86,7 +60,7 @@ export const UtilisateurDetail = () => {
               : null}
           </dd>
           <dt>
-            <Translate contentKey="blogApp.utilisateur.patients">Patients</Translate>
+            <Translate contentKey="blogApp.utilisateur.patient">Patient</Translate>
           </dt>
           <dd>
             {utilisateurEntity.patients

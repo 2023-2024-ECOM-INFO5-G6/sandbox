@@ -15,44 +15,19 @@ describe('UserRole e2e test', () => {
   const userRolePageUrlPattern = new RegExp('/user-role(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  // const userRoleSample = {"role":"ADMIN"};
+  const userRoleSample = { role: 'ADMIN' };
 
   let userRole;
-  // let utilisateur;
 
   beforeEach(() => {
     cy.login(username, password);
   });
-
-  /* Disabled due to incompatibility
-  beforeEach(() => {
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/utilisateurs',
-      body: {"idU":74182,"emailU":"Aw74a6@XQ.Zf7Jx0.pQ6.4vAZuQ.DkLOn2","nomU":"Frozen Alsace Faubourg","prenomU":"Account Market","dateNaissanceU":"2023-11-12"},
-    }).then(({ body }) => {
-      utilisateur = body;
-    });
-  });
-   */
 
   beforeEach(() => {
     cy.intercept('GET', '/api/user-roles+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/user-roles').as('postEntityRequest');
     cy.intercept('DELETE', '/api/user-roles/*').as('deleteEntityRequest');
   });
-
-  /* Disabled due to incompatibility
-  beforeEach(() => {
-    // Simulate relationships api for better performance and reproducibility.
-    cy.intercept('GET', '/api/utilisateurs', {
-      statusCode: 200,
-      body: [utilisateur],
-    });
-
-  });
-   */
 
   afterEach(() => {
     if (userRole) {
@@ -64,19 +39,6 @@ describe('UserRole e2e test', () => {
       });
     }
   });
-
-  /* Disabled due to incompatibility
-  afterEach(() => {
-    if (utilisateur) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/utilisateurs/${utilisateur.id}`,
-      }).then(() => {
-        utilisateur = undefined;
-      });
-    }
-  });
-   */
 
   it('UserRoles menu should load UserRoles page', () => {
     cy.visit('/');
@@ -113,15 +75,11 @@ describe('UserRole e2e test', () => {
     });
 
     describe('with existing value', () => {
-      /* Disabled due to incompatibility
       beforeEach(() => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/user-roles',
-          body: {
-            ...userRoleSample,
-            utilisateur: utilisateur,
-          },
+          body: userRoleSample,
         }).then(({ body }) => {
           userRole = body;
 
@@ -141,17 +99,6 @@ describe('UserRole e2e test', () => {
         cy.visit(userRolePageUrl);
 
         cy.wait('@entitiesRequestInternal');
-      });
-       */
-
-      beforeEach(function () {
-        cy.visit(userRolePageUrl);
-
-        cy.wait('@entitiesRequest').then(({ response }) => {
-          if (response.body.length === 0) {
-            this.skip();
-          }
-        });
       });
 
       it('detail button click should load details UserRole page', () => {
@@ -185,7 +132,7 @@ describe('UserRole e2e test', () => {
         cy.url().should('match', userRolePageUrlPattern);
       });
 
-      it.skip('last delete button click should delete instance of UserRole', () => {
+      it('last delete button click should delete instance of UserRole', () => {
         cy.intercept('GET', '/api/user-roles/*').as('dialogDeleteRequest');
         cy.get(entityDeleteButtonSelector).last().click();
         cy.wait('@dialogDeleteRequest');
@@ -211,10 +158,8 @@ describe('UserRole e2e test', () => {
       cy.getEntityCreateUpdateHeading('UserRole');
     });
 
-    it.skip('should create an instance of UserRole', () => {
+    it('should create an instance of UserRole', () => {
       cy.get(`[data-cy="role"]`).select('MEDECIN');
-
-      cy.get(`[data-cy="utilisateur"]`).select([0]);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

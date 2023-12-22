@@ -28,7 +28,7 @@
     },
     {
       "fieldName": "tailleP",
-      "fieldType": "Long"
+      "fieldType": "Float"
     },
     {
       "fieldName": "sexeP",
@@ -48,17 +48,16 @@
   "relationships": [
     {
       "otherEntityName": "chambre",
-      "otherEntityRelationshipName": "patients",
-      "ownerSide": true,
+      "otherEntityRelationshipName": "patient",
       "relationshipName": "chambres",
-      "relationshipType": "many-to-many",
+      "relationshipType": "one-to-many",
       "relationshipValidateRules": "required"
     },
     {
       "otherEntityName": "utilisateur",
-      "otherEntityRelationshipName": "patients",
+      "otherEntityRelationshipName": "patient",
       "ownerSide": false,
-      "relationshipName": "utilisateurs",
+      "relationshipName": "utilisateur",
       "relationshipType": "many-to-many",
       "relationshipValidateRules": "required"
     }

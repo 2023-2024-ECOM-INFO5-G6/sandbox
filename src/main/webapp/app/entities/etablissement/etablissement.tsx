@@ -61,7 +61,7 @@ export const Etablissement = () => {
                   <Translate contentKey="blogApp.etablissement.adresseE">Adresse E</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="blogApp.etablissement.utilisateurs">Utilisateurs</Translate>
+                  <Translate contentKey="blogApp.etablissement.utilisateur">Utilisateur</Translate>
                 </th>
                 <th />
               </tr>

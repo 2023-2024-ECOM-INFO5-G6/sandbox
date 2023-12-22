@@ -39,7 +39,7 @@ describe('Patient e2e test', () => {
     cy.authenticatedRequest({
       method: 'POST',
       url: '/api/utilisateurs',
-      body: {"idU":63064,"emailU":"R@k.UpPjs.YD8k","passwordU":"G&X8/zw{","nomU":"Robust","prenomU":"Cheese quantifying Ingenieur","dateNaissanceU":"2023-11-12"},
+      body: {"dateNaissanceU":"2023-11-12"},
     }).then(({ body }) => {
       utilisateur = body;
     });
@@ -143,7 +143,7 @@ describe('Patient e2e test', () => {
           body: {
             ...patientSample,
             chambres: chambre,
-            utilisateurs: utilisateur,
+            utilisateur: utilisateur,
           },
         }).then(({ body }) => {
           patient = body;
@@ -250,7 +250,7 @@ describe('Patient e2e test', () => {
       cy.get(`[data-cy="dateArrivee"]`).type('2023-11-11').blur().should('have.value', '2023-11-11');
 
       cy.get(`[data-cy="chambres"]`).select([0]);
-      cy.get(`[data-cy="utilisateurs"]`).select([0]);
+      cy.get(`[data-cy="utilisateur"]`).select([0]);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

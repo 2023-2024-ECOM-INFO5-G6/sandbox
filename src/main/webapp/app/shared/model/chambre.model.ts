@@ -4,8 +4,8 @@ import { IPatient } from 'app/shared/model/patient.model';
 export interface IChambre {
   id?: number;
   numC?: string;
-  etablissement?: IEtablissement | null;
-  patients?: IPatient[];
+  etablissement?: IEtablissement;
+  patient?: IPatient | null;
 }
 
 export const defaultValue: Readonly<IChambre> = {};

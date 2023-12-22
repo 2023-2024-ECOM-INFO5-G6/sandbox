@@ -6,35 +6,6 @@
   "entityTableName": "utilisateur",
   "fields": [
     {
-      "fieldName": "idU",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "emailU",
-      "fieldType": "String",
-      "fieldValidateRules": ["required", "pattern"],
-      "fieldValidateRulesPattern": "^([a-zA-Z0-9_.+-])+\\@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$"
-    },
-    {
-      "fieldName": "passwordU",
-      "fieldType": "String",
-      "fieldValidateRules": ["required", "pattern"],
-      "fieldValidateRulesPattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
-    },
-    {
-      "fieldName": "nomU",
-      "fieldType": "String",
-      "fieldValidateRules": ["minlength"],
-      "fieldValidateRulesMinlength": "1"
-    },
-    {
-      "fieldName": "prenomU",
-      "fieldType": "String",
-      "fieldValidateRules": ["minlength"],
-      "fieldValidateRulesMinlength": "1"
-    },
-    {
       "fieldName": "dateNaissanceU",
       "fieldType": "LocalDate"
     }
@@ -46,26 +17,31 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
       "otherEntityName": "userRole",
       "otherEntityRelationshipName": "utilisateur",
       "ownerSide": true,
-      "relationshipName": "userRoles",
+      "relationshipName": "userRole",
       "relationshipType": "many-to-many",
       "relationshipValidateRules": "required"
     },
     {
       "otherEntityName": "patient",
-      "otherEntityRelationshipName": "utilisateurs",
+      "otherEntityRelationshipName": "utilisateur",
       "ownerSide": true,
-      "relationshipName": "patients",
-      "relationshipType": "many-to-many",
-      "relationshipValidateRules": "required"
+      "relationshipName": "patient",
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "etablissement",
-      "otherEntityRelationshipName": "utilisateurs",
+      "otherEntityRelationshipName": "utilisateur",
       "ownerSide": false,
-      "relationshipName": "etablissements",
+      "relationshipName": "etablissement",
       "relationshipType": "many-to-many",
       "relationshipValidateRules": "required"
     }

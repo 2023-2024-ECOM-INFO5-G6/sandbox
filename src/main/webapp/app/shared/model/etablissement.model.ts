@@ -7,7 +7,7 @@ export interface IEtablissement {
   nomE?: string | null;
   adresseE?: string | null;
   chambres?: IChambre[];
-  utilisateurs?: IUtilisateur[];
+  utilisateurs?: IUtilisateur[] | null;
 }
 
 export const defaultValue: Readonly<IEtablissement> = {};

@@ -8,8 +8,6 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IChambre } from 'app/shared/model/chambre.model';
-import { getEntities as getChambres } from 'app/entities/chambre/chambre.reducer';
 import { IUtilisateur } from 'app/shared/model/utilisateur.model';
 import { getEntities as getUtilisateurs } from 'app/entities/utilisateur/utilisateur.reducer';
 import { IPatient } from 'app/shared/model/patient.model';
@@ -24,7 +22,6 @@ export const PatientUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const chambres = useAppSelector(state => state.chambre.entities);
   const utilisateurs = useAppSelector(state => state.utilisateur.entities);
   const patientEntity = useAppSelector(state => state.patient.entity);
   const loading = useAppSelector(state => state.patient.loading);
@@ -43,7 +40,6 @@ export const PatientUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getChambres({}));
     dispatch(getUtilisateurs({}));
   }, []);
 
@@ -57,7 +53,6 @@ export const PatientUpdate = () => {
     const entity = {
       ...patientEntity,
       ...values,
-      chambres: mapIdList(values.chambres),
     };
 
     if (isNew) {
@@ -73,7 +68,6 @@ export const PatientUpdate = () => {
       : {
           sexeP: 'HOMME',
           ...patientEntity,
-          chambres: patientEntity?.chambres?.map(e => e.id.toString()),
         };
 
   return (
@@ -160,23 +154,6 @@ export const PatientUpdate = () => {
                 data-cy="dateArrivee"
                 type="date"
               />
-              <ValidatedField
-                label={translate('blogApp.patient.chambres')}
-                id="patient-chambres"
-                data-cy="chambres"
-                type="select"
-                multiple
-                name="chambres"
-              >
-                <option value="" key="0" />
-                {chambres
-                  ? chambres.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/patient" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

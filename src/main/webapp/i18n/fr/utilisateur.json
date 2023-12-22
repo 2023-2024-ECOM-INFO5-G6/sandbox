@@ -18,15 +18,11 @@
         "title": "Utilisateur"
       },
       "id": "ID",
-      "idU": "Id U",
-      "emailU": "Email U",
-      "passwordU": "Password U",
-      "nomU": "Nom U",
-      "prenomU": "Prenom U",
       "dateNaissanceU": "Date Naissance U",
-      "userRoles": "User Roles",
-      "patients": "Patients",
-      "etablissements": "Etablissements"
+      "user": "User",
+      "userRole": "User Role",
+      "patient": "Patient",
+      "etablissement": "Etablissement"
     }
   }
 }

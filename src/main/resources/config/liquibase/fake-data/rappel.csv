@@ -1,11 +1,11 @@
-id;date_debut;date_fin;frequence;description;patient_id;utilisateur_id
-1;2023-11-12;2023-11-12;93321;needs-based Superviseur;1;1
-2;2023-11-12;2023-11-12;60841;coherent;2;2
-3;2023-11-12;2023-11-12;48216;quantifying;3;3
-4;2023-11-12;2023-11-12;16206;niches Fish b;4;4
-5;2023-11-12;2023-11-12;75055;Fish Mille;5;5
-6;2023-11-11;2023-11-12;48561;e-services Maroc Programmable;6;6
-7;2023-11-11;2023-11-12;74408;panel navigate system;7;7
-8;2023-11-12;2023-11-11;32563;back-end;8;8
-9;2023-11-12;2023-11-12;61369;tan Architecte;9;9
-10;2023-11-12;2023-11-11;42249;purple;10;10
+id;date_debut;date_fin;frequence;description;utilisateur_id
+1;2023-11-12;2023-11-12;93321;needs-based Superviseur;1
+2;2023-11-12;2023-11-12;60841;coherent;2
+3;2023-11-12;2023-11-12;48216;quantifying;3
+4;2023-11-12;2023-11-12;16206;niches Fish b;4
+5;2023-11-12;2023-11-12;75055;Fish Mille;5
+6;2023-11-11;2023-11-12;48561;e-services Maroc Programmable;6
+7;2023-11-11;2023-11-12;74408;panel navigate system;7
+8;2023-11-12;2023-11-11;32563;back-end;8
+9;2023-11-12;2023-11-12;61369;tan Architecte;9
+10;2023-11-12;2023-11-11;42249;purple;10

@@ -44,7 +44,7 @@ public class Patient implements Serializable {
     private LocalDate dateNaissanceP;
 
     @Column(name = "taille_p")
-    private Long tailleP;
+    private Float tailleP;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "sexe_p")
@@ -53,20 +53,14 @@ public class Patient implements Serializable {
     @Column(name = "date_arrivee")
     private LocalDate dateArrivee;
 
-    @ManyToMany
-    @NotNull
-    @JoinTable(
-        name = "rel_patient__chambres",
-        joinColumns = @JoinColumn(name = "patient_id"),
-        inverseJoinColumns = @JoinColumn(name = "chambres_id")
-    )
+    @OneToMany(mappedBy = "patient")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "etablissement", "patients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "etablissement", "patient" }, allowSetters = true)
     private Set<Chambre> chambres = new HashSet<>();
 
     @ManyToMany(mappedBy = "patients")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "userRoles", "patients", "etablissements" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "userRoles", "patients", "etablissements" }, allowSetters = true)
     private Set<Utilisateur> utilisateurs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -136,16 +130,16 @@ public class Patient implements Serializable {
         this.dateNaissanceP = dateNaissanceP;
     }
 
-    public Long getTailleP() {
+    public Float getTailleP() {
         return this.tailleP;
     }
 
-    public Patient tailleP(Long tailleP) {
+    public Patient tailleP(Float tailleP) {
         this.setTailleP(tailleP);
         return this;
     }
 
-    public void setTailleP(Long tailleP) {
+    public void setTailleP(Float tailleP) {
         this.tailleP = tailleP;
     }
 
@@ -180,6 +174,12 @@ public class Patient implements Serializable {
     }
 
     public void setChambres(Set<Chambre> chambres) {
+        if (this.chambres != null) {
+            this.chambres.forEach(i -> i.setPatient(null));
+        }
+        if (chambres != null) {
+            chambres.forEach(i -> i.setPatient(this));
+        }
         this.chambres = chambres;
     }
 
@@ -190,13 +190,13 @@ public class Patient implements Serializable {
 
     public Patient addChambres(Chambre chambre) {
         this.chambres.add(chambre);
-        chambre.getPatients().add(this);
+        chambre.setPatient(this);
         return this;
     }
 
     public Patient removeChambres(Chambre chambre) {
         this.chambres.remove(chambre);
-        chambre.getPatients().remove(this);
+        chambre.setPatient(null);
         return this;
     }
 
@@ -206,10 +206,10 @@ public class Patient implements Serializable {
 
     public void setUtilisateurs(Set<Utilisateur> utilisateurs) {
         if (this.utilisateurs != null) {
-            this.utilisateurs.forEach(i -> i.removePatients(this));
+            this.utilisateurs.forEach(i -> i.removePatient(this));
         }
         if (utilisateurs != null) {
-            utilisateurs.forEach(i -> i.addPatients(this));
+            utilisateurs.forEach(i -> i.addPatient(this));
         }
         this.utilisateurs = utilisateurs;
     }
@@ -219,13 +219,13 @@ public class Patient implements Serializable {
         return this;
     }
 
-    public Patient addUtilisateurs(Utilisateur utilisateur) {
+    public Patient addUtilisateur(Utilisateur utilisateur) {
         this.utilisateurs.add(utilisateur);
         utilisateur.getPatients().add(this);
         return this;
     }
 
-    public Patient removeUtilisateurs(Utilisateur utilisateur) {
+    public Patient removeUtilisateur(Utilisateur utilisateur) {
         this.utilisateurs.remove(utilisateur);
         utilisateur.getPatients().remove(this);
         return this;

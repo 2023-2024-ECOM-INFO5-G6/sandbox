@@ -14,23 +14,11 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="id_u" type="bigint">
-                <constraints nullable="false" />
-            </column>
-            <column name="email_u" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="password_u" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-            <column name="nom_u" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="prenom_u" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="date_naissance_u" type="date">
                 <constraints nullable="true" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_utilisateur__user_id" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -38,8 +26,8 @@
 
     <changeSet id="20231112164206-1-relations" author="jhipster">
 
-        <createTable tableName="rel_utilisateur__user_roles">
-            <column name="user_roles_id" type="bigint">
+        <createTable tableName="rel_utilisateur__user_role">
+            <column name="user_role_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="utilisateur_id" type="bigint">
@@ -47,10 +35,10 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="utilisateur_id, user_roles_id" tableName="rel_utilisateur__user_roles"/>
+        <addPrimaryKey columnNames="utilisateur_id, user_role_id" tableName="rel_utilisateur__user_role"/>
 
-        <createTable tableName="rel_utilisateur__patients">
-            <column name="patients_id" type="bigint">
+        <createTable tableName="rel_utilisateur__patient">
+            <column name="patient_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="utilisateur_id" type="bigint">
@@ -58,7 +46,7 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="utilisateur_id, patients_id" tableName="rel_utilisateur__patients"/>
+        <addPrimaryKey columnNames="utilisateur_id, patient_id" tableName="rel_utilisateur__patient"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -78,11 +66,6 @@
                   tableName="utilisateur"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="id_u" type="numeric"/>
-            <column name="email_u" type="string"/>
-            <column name="password_u" type="string"/>
-            <column name="nom_u" type="string"/>
-            <column name="prenom_u" type="string"/>
             <column name="date_naissance_u" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

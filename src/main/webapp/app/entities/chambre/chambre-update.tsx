@@ -56,6 +56,7 @@ export const ChambreUpdate = () => {
       ...chambreEntity,
       ...values,
       etablissement: etablissements.find(it => it.id.toString() === values.etablissement.toString()),
+      patient: patients.find(it => it.id.toString() === values.patient.toString()),
     };
 
     if (isNew) {
@@ -71,6 +72,7 @@ export const ChambreUpdate = () => {
       : {
           ...chambreEntity,
           etablissement: chambreEntity?.etablissement?.id,
+          patient: chambreEntity?.patient?.id,
         };
 
   return (
@@ -114,10 +116,30 @@ export const ChambreUpdate = () => {
                 data-cy="etablissement"
                 label={translate('blogApp.chambre.etablissement')}
                 type="select"
+                required
               >
                 <option value="" key="0" />
                 {etablissements
                   ? etablissements.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <FormText>
+                <Translate contentKey="entity.validation.required">This field is required.</Translate>
+              </FormText>
+              <ValidatedField
+                id="chambre-patient"
+                name="patient"
+                data-cy="patient"
+                label={translate('blogApp.chambre.patient')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {patients
+                  ? patients.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

@@ -32,8 +32,7 @@
     {
       "otherEntityName": "patient",
       "relationshipName": "patient",
-      "relationshipType": "many-to-one",
-      "relationshipValidateRules": "required"
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

@@ -27,7 +27,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="patient_id" type="bigint">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="utilisateur_id" type="bigint">
                 <constraints nullable="false" />
@@ -57,7 +57,6 @@
             <column name="date_fin" type="date"/>
             <column name="frequence" type="numeric"/>
             <column name="description" type="string"/>
-            <column name="patient_id" type="numeric"/>
             <column name="utilisateur_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

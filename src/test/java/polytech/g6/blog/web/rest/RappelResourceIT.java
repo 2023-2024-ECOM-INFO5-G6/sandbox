@@ -20,7 +20,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
-import polytech.g6.blog.domain.Patient;
 import polytech.g6.blog.domain.Rappel;
 import polytech.g6.blog.domain.Utilisateur;
 import polytech.g6.blog.repository.RappelRepository;
@@ -75,16 +74,6 @@ class RappelResourceIT {
             .frequence(DEFAULT_FREQUENCE)
             .description(DEFAULT_DESCRIPTION);
         // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        rappel.setPatient(patient);
-        // Add required entity
         Utilisateur utilisateur;
         if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
             utilisateur = UtilisateurResourceIT.createEntity(em);
@@ -109,16 +98,6 @@ class RappelResourceIT {
             .dateFin(UPDATED_DATE_FIN)
             .frequence(UPDATED_FREQUENCE)
             .description(UPDATED_DESCRIPTION);
-        // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createUpdatedEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        rappel.setPatient(patient);
         // Add required entity
         Utilisateur utilisateur;
         if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {

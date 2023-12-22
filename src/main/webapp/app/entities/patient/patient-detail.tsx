@@ -80,19 +80,6 @@ export const PatientDetail = () => {
           <dd>
             {patientEntity.dateArrivee ? <TextFormat value={patientEntity.dateArrivee} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}
           </dd>
-          <dt>
-            <Translate contentKey="blogApp.patient.chambres">Chambres</Translate>
-          </dt>
-          <dd>
-            {patientEntity.chambres
-              ? patientEntity.chambres.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.id}</a>
-                    {patientEntity.chambres && i === patientEntity.chambres.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
         </dl>
         <Button tag={Link} to="/patient" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

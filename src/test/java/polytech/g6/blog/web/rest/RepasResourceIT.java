@@ -22,7 +22,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
-import polytech.g6.blog.domain.Patient;
 import polytech.g6.blog.domain.Repas;
 import polytech.g6.blog.repository.RepasRepository;
 
@@ -71,16 +70,6 @@ class RepasResourceIT {
      */
     public static Repas createEntity(EntityManager em) {
         Repas repas = new Repas().idR(DEFAULT_ID_R).dateR(DEFAULT_DATE_R).heureR(DEFAULT_HEURE_R).epa(DEFAULT_EPA);
-        // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        repas.setPatient(patient);
         return repas;
     }
 
@@ -92,16 +81,6 @@ class RepasResourceIT {
      */
     public static Repas createUpdatedEntity(EntityManager em) {
         Repas repas = new Repas().idR(UPDATED_ID_R).dateR(UPDATED_DATE_R).heureR(UPDATED_HEURE_R).epa(UPDATED_EPA);
-        // Add required entity
-        Patient patient;
-        if (TestUtil.findAll(em, Patient.class).isEmpty()) {
-            patient = PatientResourceIT.createUpdatedEntity(em);
-            em.persist(patient);
-            em.flush();
-        } else {
-            patient = TestUtil.findAll(em, Patient.class).get(0);
-        }
-        repas.setPatient(patient);
         return repas;
     }
 

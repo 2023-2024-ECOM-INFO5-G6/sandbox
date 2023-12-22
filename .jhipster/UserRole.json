@@ -20,11 +20,10 @@
   "relationships": [
     {
       "otherEntityName": "utilisateur",
-      "otherEntityRelationshipName": "userRoles",
+      "otherEntityRelationshipName": "userRole",
       "ownerSide": false,
       "relationshipName": "utilisateur",
-      "relationshipType": "many-to-many",
-      "relationshipValidateRules": "required"
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "no"

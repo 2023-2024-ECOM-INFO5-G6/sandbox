@@ -39,18 +39,17 @@ public class Etablissement implements Serializable {
 
     @OneToMany(mappedBy = "etablissement")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "etablissement", "patients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "etablissement", "patient" }, allowSetters = true)
     private Set<Chambre> chambres = new HashSet<>();
 
     @ManyToMany
-    @NotNull
     @JoinTable(
-        name = "rel_etablissement__utilisateurs",
+        name = "rel_etablissement__utilisateur",
         joinColumns = @JoinColumn(name = "etablissement_id"),
-        inverseJoinColumns = @JoinColumn(name = "utilisateurs_id")
+        inverseJoinColumns = @JoinColumn(name = "utilisateur_id")
     )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "userRoles", "patients", "etablissements" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "userRoles", "patients", "etablissements" }, allowSetters = true)
     private Set<Utilisateur> utilisateurs = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -151,13 +150,13 @@ public class Etablissement implements Serializable {
         return this;
     }
 
-    public Etablissement addUtilisateurs(Utilisateur utilisateur) {
+    public Etablissement addUtilisateur(Utilisateur utilisateur) {
         this.utilisateurs.add(utilisateur);
         utilisateur.getEtablissements().add(this);
         return this;
     }
 
-    public Etablissement removeUtilisateurs(Utilisateur utilisateur) {
+    public Etablissement removeUtilisateur(Utilisateur utilisateur) {
         this.utilisateurs.remove(utilisateur);
         utilisateur.getEtablissements().remove(this);
         return this;

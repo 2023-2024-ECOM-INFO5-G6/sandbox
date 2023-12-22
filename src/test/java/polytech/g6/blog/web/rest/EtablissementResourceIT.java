@@ -28,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
 import polytech.g6.blog.domain.Chambre;
 import polytech.g6.blog.domain.Etablissement;
-import polytech.g6.blog.domain.Utilisateur;
 import polytech.g6.blog.repository.EtablissementRepository;
 
 /**
@@ -87,16 +86,6 @@ class EtablissementResourceIT {
             chambre = TestUtil.findAll(em, Chambre.class).get(0);
         }
         etablissement.getChambres().add(chambre);
-        // Add required entity
-        Utilisateur utilisateur;
-        if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
-            utilisateur = UtilisateurResourceIT.createEntity(em);
-            em.persist(utilisateur);
-            em.flush();
-        } else {
-            utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
-        }
-        etablissement.getUtilisateurs().add(utilisateur);
         return etablissement;
     }
 
@@ -118,16 +107,6 @@ class EtablissementResourceIT {
             chambre = TestUtil.findAll(em, Chambre.class).get(0);
         }
         etablissement.getChambres().add(chambre);
-        // Add required entity
-        Utilisateur utilisateur;
-        if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
-            utilisateur = UtilisateurResourceIT.createUpdatedEntity(em);
-            em.persist(utilisateur);
-            em.flush();
-        } else {
-            utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
-        }
-        etablissement.getUtilisateurs().add(utilisateur);
         return etablissement;
     }
 

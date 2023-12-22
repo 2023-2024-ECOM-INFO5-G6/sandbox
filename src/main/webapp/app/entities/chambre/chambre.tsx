@@ -57,6 +57,9 @@ export const Chambre = () => {
                 <th>
                   <Translate contentKey="blogApp.chambre.etablissement">Etablissement</Translate>
                 </th>
+                <th>
+                  <Translate contentKey="blogApp.chambre.patient">Patient</Translate>
+                </th>
                 <th />
               </tr>
             </thead>
@@ -72,6 +75,7 @@ export const Chambre = () => {
                   <td>
                     {chambre.etablissement ? <Link to={`/etablissement/${chambre.etablissement.id}`}>{chambre.etablissement.id}</Link> : ''}
                   </td>
+                  <td>{chambre.patient ? <Link to={`/patient/${chambre.patient.id}`}>{chambre.patient.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/chambre/${chambre.id}`} color="info" size="sm" data-cy="entityDetailsButton">

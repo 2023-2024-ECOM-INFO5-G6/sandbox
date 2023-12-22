@@ -160,17 +160,12 @@ public class PatientResource {
     /**
      * {@code GET  /patients} : get all the patients.
      *
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of patients in body.
      */
     @GetMapping("/patients")
-    public List<Patient> getAllPatients(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+    public List<Patient> getAllPatients() {
         log.debug("REST request to get all Patients");
-        if (eagerload) {
-            return patientRepository.findAllWithEagerRelationships();
-        } else {
-            return patientRepository.findAll();
-        }
+        return patientRepository.findAll();
     }
 
     /**
@@ -182,7 +177,7 @@ public class PatientResource {
     @GetMapping("/patients/{id}")
     public ResponseEntity<Patient> getPatient(@PathVariable Long id) {
         log.debug("REST request to get Patient : {}", id);
-        Optional<Patient> patient = patientRepository.findOneWithEagerRelationships(id);
+        Optional<Patient> patient = patientRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(patient);
     }
 

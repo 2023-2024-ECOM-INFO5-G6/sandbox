@@ -15,11 +15,10 @@ describe('Utilisateur e2e test', () => {
   const utilisateurPageUrlPattern = new RegExp('/utilisateur(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  // const utilisateurSample = {"idU":1691,"emailU":".R@ShTQC.m0mH2.U.zXL1P.G1j.Gwj.Fct","passwordU":"dF*||b9V"};
+  // const utilisateurSample = {};
 
   let utilisateur;
   // let userRole;
-  // let patient;
   // let etablissement;
 
   beforeEach(() => {
@@ -35,14 +34,6 @@ describe('Utilisateur e2e test', () => {
       body: {"role":"ADMIN"},
     }).then(({ body }) => {
       userRole = body;
-    });
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/patients',
-      body: {"idP":693,"nomP":"methodology","prenomP":"leverage overriding","dateNaissanceP":"2023-11-11","tailleP":70582,"sexeP":"FEMME","dateArrivee":"2023-11-11"},
-    }).then(({ body }) => {
-      patient = body;
     });
     // create an instance at the required relationship entity:
     cy.authenticatedRequest({
@@ -64,6 +55,11 @@ describe('Utilisateur e2e test', () => {
   /* Disabled due to incompatibility
   beforeEach(() => {
     // Simulate relationships api for better performance and reproducibility.
+    cy.intercept('GET', '/api/users', {
+      statusCode: 200,
+      body: [],
+    });
+
     cy.intercept('GET', '/api/user-roles', {
       statusCode: 200,
       body: [userRole],
@@ -71,7 +67,7 @@ describe('Utilisateur e2e test', () => {
 
     cy.intercept('GET', '/api/patients', {
       statusCode: 200,
-      body: [patient],
+      body: [],
     });
 
     cy.intercept('GET', '/api/etablissements', {
@@ -101,14 +97,6 @@ describe('Utilisateur e2e test', () => {
         url: `/api/user-roles/${userRole.id}`,
       }).then(() => {
         userRole = undefined;
-      });
-    }
-    if (patient) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/patients/${patient.id}`,
-      }).then(() => {
-        patient = undefined;
       });
     }
     if (etablissement) {
@@ -164,9 +152,8 @@ describe('Utilisateur e2e test', () => {
           url: '/api/utilisateurs',
           body: {
             ...utilisateurSample,
-            userRoles: userRole,
-            patients: patient,
-            etablissements: etablissement,
+            userRole: userRole,
+            etablissement: etablissement,
           },
         }).then(({ body }) => {
           utilisateur = body;
@@ -258,23 +245,10 @@ describe('Utilisateur e2e test', () => {
     });
 
     it.skip('should create an instance of Utilisateur', () => {
-      cy.get(`[data-cy="idU"]`).type('82974').should('have.value', '82974');
-
-      cy.get(`[data-cy="emailU"]`)
-        .type('fYYF2@LNv.TYZc4.unxrTd.xOj.7Ky68Gk30hh')
-        .should('have.value', 'fYYF2@LNv.TYZc4.unxrTd.xOj.7Ky68Gk30hh');
-
-      cy.get(`[data-cy="passwordU"]`).type('O)&#39;9W&amp;y-OH~').should('have.value', 'O)&#39;9W&amp;y-OH~');
-
-      cy.get(`[data-cy="nomU"]`).type('input niches').should('have.value', 'input niches');
-
-      cy.get(`[data-cy="prenomU"]`).type('Saint-Séverin mindshare').should('have.value', 'Saint-Séverin mindshare');
-
       cy.get(`[data-cy="dateNaissanceU"]`).type('2023-11-11').blur().should('have.value', '2023-11-11');
 
-      cy.get(`[data-cy="userRoles"]`).select([0]);
-      cy.get(`[data-cy="patients"]`).select([0]);
-      cy.get(`[data-cy="etablissements"]`).select([0]);
+      cy.get(`[data-cy="userRole"]`).select([0]);
+      cy.get(`[data-cy="etablissement"]`).select([0]);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

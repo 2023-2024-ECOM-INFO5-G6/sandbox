@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { IUser } from 'app/shared/model/user.model';
+import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IUserRole } from 'app/shared/model/user-role.model';
 import { getEntities as getUserRoles } from 'app/entities/user-role/user-role.reducer';
 import { IPatient } from 'app/shared/model/patient.model';
@@ -25,6 +27,7 @@ export const UtilisateurUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const users = useAppSelector(state => state.userManagement.users);
   const userRoles = useAppSelector(state => state.userRole.entities);
   const patients = useAppSelector(state => state.patient.entities);
   const etablissements = useAppSelector(state => state.etablissement.entities);
@@ -44,6 +47,7 @@ export const UtilisateurUpdate = () => {
       dispatch(getEntity(id));
     }
 
+    dispatch(getUsers({}));
     dispatch(getUserRoles({}));
     dispatch(getPatients({}));
     dispatch(getEtablissements({}));
@@ -61,6 +65,7 @@ export const UtilisateurUpdate = () => {
       ...values,
       userRoles: mapIdList(values.userRoles),
       patients: mapIdList(values.patients),
+      user: users.find(it => it.id.toString() === values.user.toString()),
     };
 
     if (isNew) {
@@ -75,6 +80,7 @@ export const UtilisateurUpdate = () => {
       ? {}
       : {
           ...utilisateurEntity,
+          user: utilisateurEntity?.user?.id,
           userRoles: utilisateurEntity?.userRoles?.map(e => e.id.toString()),
           patients: utilisateurEntity?.patients?.map(e => e.id.toString()),
         };
@@ -105,77 +111,26 @@ export const UtilisateurUpdate = () => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('blogApp.utilisateur.idU')}
-                id="utilisateur-idU"
-                name="idU"
-                data-cy="idU"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                  validate: v => isNumber(v) || translate('entity.validation.number'),
-                }}
-              />
-              <ValidatedField
-                label={translate('blogApp.utilisateur.emailU')}
-                id="utilisateur-emailU"
-                name="emailU"
-                data-cy="emailU"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                  pattern: {
-                    value: /^([a-zA-Z0-9_.+-])+(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-                    message: translate('entity.validation.pattern', {
-                      pattern: '^([a-zA-Z0-9_.+-])+\\@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{2,4})+$',
-                    }),
-                  },
-                }}
-              />
-              <ValidatedField
-                label={translate('blogApp.utilisateur.passwordU')}
-                id="utilisateur-passwordU"
-                name="passwordU"
-                data-cy="passwordU"
-                type="text"
-                validate={{
-                  required: { value: true, message: translate('entity.validation.required') },
-                  pattern: {
-                    value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-                    message: translate('entity.validation.pattern', { pattern: '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$' }),
-                  },
-                }}
-              />
-              <ValidatedField
-                label={translate('blogApp.utilisateur.nomU')}
-                id="utilisateur-nomU"
-                name="nomU"
-                data-cy="nomU"
-                type="text"
-                validate={{
-                  minLength: { value: 1, message: translate('entity.validation.minlength', { min: 1 }) },
-                }}
-              />
-              <ValidatedField
-                label={translate('blogApp.utilisateur.prenomU')}
-                id="utilisateur-prenomU"
-                name="prenomU"
-                data-cy="prenomU"
-                type="text"
-                validate={{
-                  minLength: { value: 1, message: translate('entity.validation.minlength', { min: 1 }) },
-                }}
-              />
-              <ValidatedField
                 label={translate('blogApp.utilisateur.dateNaissanceU')}
                 id="utilisateur-dateNaissanceU"
                 name="dateNaissanceU"
                 data-cy="dateNaissanceU"
                 type="date"
               />
+              <ValidatedField id="utilisateur-user" name="user" data-cy="user" label={translate('blogApp.utilisateur.user')} type="select">
+                <option value="" key="0" />
+                {users
+                  ? users.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <ValidatedField
-                label={translate('blogApp.utilisateur.userRoles')}
-                id="utilisateur-userRoles"
-                data-cy="userRoles"
+                label={translate('blogApp.utilisateur.userRole')}
+                id="utilisateur-userRole"
+                data-cy="userRole"
                 type="select"
                 multiple
                 name="userRoles"
@@ -190,9 +145,9 @@ export const UtilisateurUpdate = () => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                label={translate('blogApp.utilisateur.patients')}
-                id="utilisateur-patients"
-                data-cy="patients"
+                label={translate('blogApp.utilisateur.patient')}
+                id="utilisateur-patient"
+                data-cy="patient"
                 type="select"
                 multiple
                 name="patients"

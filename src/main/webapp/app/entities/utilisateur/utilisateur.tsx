@@ -52,28 +52,16 @@ export const Utilisateur = () => {
                   <Translate contentKey="blogApp.utilisateur.id">ID</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="blogApp.utilisateur.idU">Id U</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="blogApp.utilisateur.emailU">Email U</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="blogApp.utilisateur.passwordU">Password U</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="blogApp.utilisateur.nomU">Nom U</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="blogApp.utilisateur.prenomU">Prenom U</Translate>
-                </th>
-                <th>
                   <Translate contentKey="blogApp.utilisateur.dateNaissanceU">Date Naissance U</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="blogApp.utilisateur.userRoles">User Roles</Translate>
+                  <Translate contentKey="blogApp.utilisateur.user">User</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="blogApp.utilisateur.patients">Patients</Translate>
+                  <Translate contentKey="blogApp.utilisateur.userRole">User Role</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="blogApp.utilisateur.patient">Patient</Translate>
                 </th>
                 <th />
               </tr>
@@ -86,16 +74,12 @@ export const Utilisateur = () => {
                       {utilisateur.id}
                     </Button>
                   </td>
-                  <td>{utilisateur.idU}</td>
-                  <td>{utilisateur.emailU}</td>
-                  <td>{utilisateur.passwordU}</td>
-                  <td>{utilisateur.nomU}</td>
-                  <td>{utilisateur.prenomU}</td>
                   <td>
                     {utilisateur.dateNaissanceU ? (
                       <TextFormat type="date" value={utilisateur.dateNaissanceU} format={APP_LOCAL_DATE_FORMAT} />
                     ) : null}
                   </td>
+                  <td>{utilisateur.user ? utilisateur.user.id : ''}</td>
                   <td>
                     {utilisateur.userRoles
                       ? utilisateur.userRoles.map((val, j) => (

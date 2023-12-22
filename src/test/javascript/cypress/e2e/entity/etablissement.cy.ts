@@ -19,7 +19,6 @@ describe('Etablissement e2e test', () => {
 
   let etablissement;
   // let chambre;
-  // let utilisateur;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -34,14 +33,6 @@ describe('Etablissement e2e test', () => {
       body: {"numC":"Vanuatu Consultant"},
     }).then(({ body }) => {
       chambre = body;
-    });
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/utilisateurs',
-      body: {"idU":1701,"emailU":"rJ+Y@F.F2.5s.6e.qlFwvrpUIq","passwordU":"VH,8O'g/","nomU":"card viral copy","prenomU":"web-readiness","dateNaissanceU":"2023-11-11"},
-    }).then(({ body }) => {
-      utilisateur = body;
     });
   });
    */
@@ -62,7 +53,7 @@ describe('Etablissement e2e test', () => {
 
     cy.intercept('GET', '/api/utilisateurs', {
       statusCode: 200,
-      body: [utilisateur],
+      body: [],
     });
 
   });
@@ -87,14 +78,6 @@ describe('Etablissement e2e test', () => {
         url: `/api/chambres/${chambre.id}`,
       }).then(() => {
         chambre = undefined;
-      });
-    }
-    if (utilisateur) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/utilisateurs/${utilisateur.id}`,
-      }).then(() => {
-        utilisateur = undefined;
       });
     }
   });
@@ -143,7 +126,6 @@ describe('Etablissement e2e test', () => {
           body: {
             ...etablissementSample,
             chambres: chambre,
-            utilisateurs: utilisateur,
           },
         }).then(({ body }) => {
           etablissement = body;
@@ -242,7 +224,6 @@ describe('Etablissement e2e test', () => {
       cy.get(`[data-cy="adresseE"]`).type('incremental iterate Personal').should('have.value', 'incremental iterate Personal');
 
       cy.get(`[data-cy="chambres"]`).select([0]);
-      cy.get(`[data-cy="utilisateurs"]`).select([0]);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

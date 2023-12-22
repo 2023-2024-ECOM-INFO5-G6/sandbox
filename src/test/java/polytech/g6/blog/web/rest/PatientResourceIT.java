@@ -2,27 +2,19 @@ package polytech.g6.blog.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-//import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,7 +30,6 @@ import polytech.g6.blog.repository.PatientRepository;
  * Integration tests for the {@link PatientResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class PatientResourceIT {
@@ -55,8 +46,8 @@ class PatientResourceIT {
     private static final LocalDate DEFAULT_DATE_NAISSANCE_P = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_NAISSANCE_P = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Long DEFAULT_TAILLE_P = 1L;
-    private static final Long UPDATED_TAILLE_P = 2L;
+    private static final Float DEFAULT_TAILLE_P = 1F;
+    private static final Float UPDATED_TAILLE_P = 2F;
 
     private static final Sexe DEFAULT_SEXE_P = Sexe.HOMME;
     private static final Sexe UPDATED_SEXE_P = Sexe.FEMME;
@@ -72,9 +63,6 @@ class PatientResourceIT {
 
     @Autowired
     private PatientRepository patientRepository;
-
-    @Mock
-    private PatientRepository patientRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -238,26 +226,9 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.[*].nomP").value(hasItem(DEFAULT_NOM_P)))
             .andExpect(jsonPath("$.[*].prenomP").value(hasItem(DEFAULT_PRENOM_P)))
             .andExpect(jsonPath("$.[*].dateNaissanceP").value(hasItem(DEFAULT_DATE_NAISSANCE_P.toString())))
-            .andExpect(jsonPath("$.[*].tailleP").value(hasItem(DEFAULT_TAILLE_P.intValue())))
+            .andExpect(jsonPath("$.[*].tailleP").value(hasItem(DEFAULT_TAILLE_P.doubleValue())))
             .andExpect(jsonPath("$.[*].sexeP").value(hasItem(DEFAULT_SEXE_P.toString())))
             .andExpect(jsonPath("$.[*].dateArrivee").value(hasItem(DEFAULT_DATE_ARRIVEE.toString())));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllPatientsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(patientRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restPatientMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(patientRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllPatientsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(patientRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restPatientMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(patientRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -276,7 +247,7 @@ class PatientResourceIT {
             .andExpect(jsonPath("$.nomP").value(DEFAULT_NOM_P))
             .andExpect(jsonPath("$.prenomP").value(DEFAULT_PRENOM_P))
             .andExpect(jsonPath("$.dateNaissanceP").value(DEFAULT_DATE_NAISSANCE_P.toString()))
-            .andExpect(jsonPath("$.tailleP").value(DEFAULT_TAILLE_P.intValue()))
+            .andExpect(jsonPath("$.tailleP").value(DEFAULT_TAILLE_P.doubleValue()))
             .andExpect(jsonPath("$.sexeP").value(DEFAULT_SEXE_P.toString()))
             .andExpect(jsonPath("$.dateArrivee").value(DEFAULT_DATE_ARRIVEE.toString()));
     }

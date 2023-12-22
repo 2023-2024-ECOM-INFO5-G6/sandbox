@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import polytech.g6.blog.IntegrationTest;
 import polytech.g6.blog.domain.UserRole;
-import polytech.g6.blog.domain.Utilisateur;
 import polytech.g6.blog.domain.enumeration.Role;
 import polytech.g6.blog.repository.UserRoleRepository;
 
@@ -59,16 +58,6 @@ class UserRoleResourceIT {
      */
     public static UserRole createEntity(EntityManager em) {
         UserRole userRole = new UserRole().role(DEFAULT_ROLE);
-        // Add required entity
-        Utilisateur utilisateur;
-        if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
-            utilisateur = UtilisateurResourceIT.createEntity(em);
-            em.persist(utilisateur);
-            em.flush();
-        } else {
-            utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
-        }
-        userRole.getUtilisateurs().add(utilisateur);
         return userRole;
     }
 
@@ -80,16 +69,6 @@ class UserRoleResourceIT {
      */
     public static UserRole createUpdatedEntity(EntityManager em) {
         UserRole userRole = new UserRole().role(UPDATED_ROLE);
-        // Add required entity
-        Utilisateur utilisateur;
-        if (TestUtil.findAll(em, Utilisateur.class).isEmpty()) {
-            utilisateur = UtilisateurResourceIT.createUpdatedEntity(em);
-            em.persist(utilisateur);
-            em.flush();
-        } else {
-            utilisateur = TestUtil.findAll(em, Utilisateur.class).get(0);
-        }
-        userRole.getUtilisateurs().add(utilisateur);
         return userRole;
     }
 

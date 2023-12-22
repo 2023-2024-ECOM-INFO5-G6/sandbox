@@ -120,14 +120,7 @@ export const RepasUpdate = () => {
                 placeholder="YYYY-MM-DD HH:mm"
               />
               <ValidatedField label={translate('blogApp.repas.epa')} id="repas-epa" name="epa" data-cy="epa" type="text" />
-              <ValidatedField
-                id="repas-patient"
-                name="patient"
-                data-cy="patient"
-                label={translate('blogApp.repas.patient')}
-                type="select"
-                required
-              >
+              <ValidatedField id="repas-patient" name="patient" data-cy="patient" label={translate('blogApp.repas.patient')} type="select">
                 <option value="" key="0" />
                 {patients
                   ? patients.map(otherEntity => (
@@ -137,9 +130,6 @@ export const RepasUpdate = () => {
                     ))
                   : null}
               </ValidatedField>
-              <FormText>
-                <Translate contentKey="entity.validation.required">This field is required.</Translate>
-              </FormText>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/repas" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
