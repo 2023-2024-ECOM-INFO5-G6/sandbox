@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the JAR file into the container at /app
-COPY /sandbox/target/blog-0.0.1-SNAPSHOT.jar .
+COPY /target/blog-0.0.1-SNAPSHOT.jar .
 
 # Expose the port that your Java application listens on
 EXPOSE 8080
