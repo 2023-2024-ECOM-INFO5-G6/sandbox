@@ -80,7 +80,7 @@ out/
 # Maven
 ######################
 /log/
-/target/
+/target/*
 !/target/blog-0.0.1-SNAPSHOT.jar
 
 ######################
